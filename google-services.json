@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "532860561857",
+    "firebase_url": "https://ratein-mad-project-default-rtdb.firebaseio.com",
+    "project_id": "ratein-mad-project",
+    "storage_bucket": "ratein-mad-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532860561857:android:5f31e8e8477d27e406e740",
+        "android_client_info": {
+          "package_name": "edu.neu.madproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "532860561857-s0tr09e7enjfo4lsonosib1e6g3p0sbm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkjeCqNJLny2dv5SAgOwLXOXRGd0EnLRE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "532860561857-s0tr09e7enjfo4lsonosib1e6g3p0sbm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
