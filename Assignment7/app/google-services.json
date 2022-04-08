@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "299195616173",
+    "project_id": "assignment7-10bc7",
+    "storage_bucket": "assignment7-10bc7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299195616173:android:5a4bc7b496047d74c8af24",
+        "android_client_info": {
+          "package_name": "edu.neu.madcourse.assignment7"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "299195616173-lerekphtpt44jchclmsngsm27rjb1mtq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfSPsqhETlJlWeEe0jS6ZX0sX9LgMpSCk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "299195616173-lerekphtpt44jchclmsngsm27rjb1mtq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

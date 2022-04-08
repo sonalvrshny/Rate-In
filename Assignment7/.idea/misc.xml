@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/drawable/ic_launcher_t27_background.xml" value="0.2265" />
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/drawable/ic_launcher_t27_foreground.xml" value="0.2265" />
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/layout/activity_chat.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/layout/activity_create_account.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/layout/activity_home.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/layout/activity_login.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/layout/activity_stats.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/layout/activity_sticker.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/layout/item_sticker_row.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/layout/item_user_row.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/layout/receiver_chat_layout.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/layout/sender_chat_layout.xml" value="0.1" />
+        <entry key="..\:/Users/shubh/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.23489583333333333" />
+        <entry key="..\:/Users/shubh/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/drawable/edittext_shape.xml" value="0.23489583333333333" />
+        <entry key="..\:/Users/shubh/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/drawable/ic_launcher_background.xml" value="0.403125" />
+        <entry key="..\:/Users/shubh/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/layout/activity_create_account.xml" value="0.38315217391304346" />
+        <entry key="..\:/Users/shubh/AndroidStudioProjects/MADAssignment7/Assignment7/app/src/main/res/layout/activity_home.xml" value="0.2957427536231884" />
+        <entry key="app/src/main/res/drawable-xhdpi/logo.xml" value="0.2037037037037037" />
+        <entry key="app/src/main/res/drawable/edittext_shape.xml" value="0.18703703703703703" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.20833333333333334" />
+        <entry key="app/src/main/res/drawable/shape_item.xml" value="0.133" />
+        <entry key="app/src/main/res/drawable/signin_shape.xml" value="0.18703703703703703" />
+        <entry key="app/src/main/res/layout/activity_chat.xml" value="0.24324324324324326" />
+        <entry key="app/src/main/res/layout/activity_create_account.xml" value="0.23505434782608695" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.44000000000000006" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.3072289156626506" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2421875" />
+        <entry key="app/src/main/res/layout/activity_stats.xml" value="0.2890625" />
+        <entry key="app/src/main/res/layout/activity_sticker.xml" value="0.4796195652173913" />
+        <entry key="app/src/main/res/layout/item_sticker_row.xml" value="0.4796195652173913" />
+        <entry key="app/src/main/res/layout/item_user_row.xml" value="0.2421875" />
+        <entry key="app/src/main/res/layout/receiver_chat_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/sender_chat_layout.xml" value="0.4" />
+        <entry key="app/src/main/res/layout/statsview.xml" value="0.529891304347826" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.2421875" />
+      </ProjectState>
+    </option>
+  </component>
+</project>
