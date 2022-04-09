@@ -25,12 +25,12 @@
             android:layout_margin="10.00dp"
             android:fontFamily="sans-serif-black"
             android:gravity="center"
-            android:text="RateIn"
+            android:text="Create an Account"
             android:textColor="@color/black"
             android:textSize="25.00sp" />
 
         <EditText
-            android:id="@+id/username_login"
+            android:id="@+id/username_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10.00dp"
@@ -46,7 +46,7 @@
             android:textColor="@color/black" />
 
         <EditText
-            android:id="@+id/password_login"
+            android:id="@+id/password_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10.00dp"
@@ -62,7 +62,7 @@
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/signin"
+            android:id="@+id/signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -74,12 +74,12 @@
             android:fontFamily="sans-serif-black"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Sign in"
+            android:text="Sign up"
             android:textColor="@color/black"
             android:textSize="20dp" />
 
         <ProgressBar
-            android:id="@+id/progressBar_login"
+            android:id="@+id/progressBar_signup"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -98,16 +98,16 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:gravity="center"
-            android:text="New User?  "
+            android:text="Already a Member?  "
             android:textColor="@color/black"
             android:textSize="16sp" />
         <TextView
-            android:id="@+id/signup"
+            android:id="@+id/login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
             android:gravity="center"
-            android:text="Sign up"
+            android:text="Sign in"
             android:textColor="@color/text"
             android:textSize="16sp" />
     </LinearLayout>
