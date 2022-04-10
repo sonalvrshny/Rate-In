@@ -88,7 +88,7 @@ public class SignupActivity extends AppCompatActivity {
                         Users user = new Users(auth.getUid(), usernameDB);
                         reference.setValue(user).addOnCompleteListener(task1 -> {
                             if (task1.isSuccessful()) {
-                                Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                                Intent intent = new Intent(SignupActivity.this, FeedActivity.class);
                                 intent.putExtra("user", usernameDB);
                                 startActivity(intent);
                                 Toast.makeText(SignupActivity.this, "User created successfully!", Toast.LENGTH_SHORT).show();
