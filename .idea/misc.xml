@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectRootManager" version="2" project-jdk-name="Android API 32 Platform" project-jdk-type="Android SDK" />
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/edittext_shape.xml" value="0.4925" />
+        <entry key="app/src/main/res/drawable/signin_shape.xml" value="0.4925" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.4796195652173913" />
+        <entry key="app/src/main/res/layout/activity_login2.xml" value="0.4796195652173913" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.7005208333333334" />
+        <entry key="app/src/main/res/layout/activity_signup.xml" value="0.7005208333333334" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android API 32 Platform" project-jdk-type="Android SDK" />
 </project>
