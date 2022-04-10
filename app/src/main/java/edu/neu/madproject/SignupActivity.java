@@ -99,7 +99,7 @@ public class SignupActivity extends AppCompatActivity {
                         });
                     }
                     else {
-                        Toast.makeText(SignupActivity.this, "Error creating user account", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignupActivity.this, "Account already exists", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
