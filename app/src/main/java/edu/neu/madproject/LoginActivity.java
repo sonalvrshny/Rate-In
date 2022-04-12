@@ -69,7 +69,8 @@ public class LoginActivity extends AppCompatActivity {
                 String usernameDB = username;
                 auth.signInWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Intent intent = new Intent(LoginActivity.this, FeedActivity.class);
+//                        Intent intent = new Intent(LoginActivity.this, FeedActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
                         intent.putExtra("user", usernameDB);
                         startActivity(intent);
                         Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
