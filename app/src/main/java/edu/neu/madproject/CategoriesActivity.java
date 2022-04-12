@@ -22,7 +22,7 @@ import java.util.Objects;
 public class CategoriesActivity extends AppCompatActivity {
 
     FirebaseDatabase database;
-    List<Pair<String,String>> categoryList;
+    List<Pair<String, String>> categoryList;
     CategoryAdapter categoriesAdapter;
     RecyclerView categoriesRecycler;
 
@@ -30,6 +30,15 @@ public class CategoriesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
+        if (savedInstanceState == null) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("some_int", 0);
+
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.fragment_container_view, NavFragment.class, bundle)
+                    .commit();
+        }
 
         categoryList = new ArrayList<>();
         database = FirebaseDatabase.getInstance();
