@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RateIn">
         <activity
+            android:name=".WriteReviewActivity"
+            android:exported="false" />
+        <activity
             android:name=".FeedActivity"
             android:exported="false" />
         <activity
