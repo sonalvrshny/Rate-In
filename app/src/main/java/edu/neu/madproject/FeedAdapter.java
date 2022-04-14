@@ -46,7 +46,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         holder.reviewContent.setText(review.getContent());
 
         holder.itemView.setOnClickListener(view -> {
-            Intent intent  = new Intent(feedActivity, WriteReviewActivity.class);
+            Intent intent  = new Intent(feedActivity, ReadReviewActivity.class);
+            intent.putExtra("image", url);
+            intent.putExtra("title",review.getTitle());
+            intent.putExtra("category",review.getTitle());
+            intent.putExtra("rating",review.getRating());
+            intent.putExtra("username",review.getUsername());
+            intent.putExtra("content",review.getContent());
             feedActivity.startActivity(intent);
         });
     }

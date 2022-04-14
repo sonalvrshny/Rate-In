@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,7 +44,7 @@ public class WriteReviewActivity extends AppCompatActivity {
     Spinner categories;
     ImageButton productImg;
     Uri ImageUri;
-    Button submitData;
+    TextView submitData;
     ProgressBar progressBar;
     FirebaseAuth auth;
     RatingBar simpleRatingBar ;
