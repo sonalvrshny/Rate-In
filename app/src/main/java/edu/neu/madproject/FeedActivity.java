@@ -47,7 +47,7 @@ public class FeedActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         reviewList = new ArrayList<>();
 
-        DatabaseReference reference = database.getReference().child("review");
+        DatabaseReference reference = database.getReference().child("reviews");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
