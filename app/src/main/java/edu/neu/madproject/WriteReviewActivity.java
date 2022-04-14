@@ -86,14 +86,7 @@ public class WriteReviewActivity extends AppCompatActivity {
                 }
             }
         });
-        Log.d("username", String.valueOf(auth.getCurrentUser()));
-//        DatabaseReference username = database.getReference().child("user").child(auth.getUid());
-//        username.get().addOnCompleteListener(task -> {
-//            for (DataSnapshot dataSnapshot1 : task.getResult().getChildren()) {
-//                String key = dataSnapshot1.getKey().toString();
-//                Log.d("username",key);
-//            }
-//        });
+
         DatabaseReference category=database.getReference().child("categories");
         category.get().addOnCompleteListener(task1->{
             for (DataSnapshot dataSnapshot1 : task1.getResult().getChildren()) {
@@ -119,10 +112,10 @@ public class WriteReviewActivity extends AppCompatActivity {
                 public void onSuccess(Uri uri) {
                     progressBar.setVisibility(View.INVISIBLE);
 
-                    WriteReviewModel model =new WriteReviewModel(uri.toString(),editTitle.getText().toString(),simpleRatingBar.getRating(),categories.getSelectedItem().toString(),editDesc.getText().toString());
+                    WriteReviewModel model =new WriteReviewModel(uri.toString(),editTitle.getText().toString(),simpleRatingBar.getRating(),categories.getSelectedItem().toString(),editDesc.getText().toString(),auth.getCurrentUser().getEmail().split("@")[0]);
                     String modelId=imageUpload.push().getKey();
                     imageUpload.child(modelId).setValue(model);
-                    Snackbar.make(findViewById(R.id.relativeLayout), "Image Upload Successfully",
+                    Snackbar.make(findViewById(R.id.relativeLayout), "Review submitted",
                             Snackbar.LENGTH_SHORT)
                             .show();
                 }
