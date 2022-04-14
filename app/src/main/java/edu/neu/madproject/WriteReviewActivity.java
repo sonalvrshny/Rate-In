@@ -118,6 +118,7 @@ public class WriteReviewActivity extends AppCompatActivity {
                     Snackbar.make(findViewById(R.id.relativeLayout), "Review submitted",
                             Snackbar.LENGTH_SHORT)
                             .show();
+                    WriteReviewActivity.this.finish();
                 }
             });
             }
