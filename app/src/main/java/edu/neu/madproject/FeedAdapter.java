@@ -3,6 +3,7 @@ package edu.neu.madproject;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -34,7 +37,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Reviews review = reviewsList.get(position);
-        holder.reviewImage.setImageURI(Uri.parse(review.getImageURL()));
+        String url=review.getImageURL();
+        Uri uri = Uri.parse(url);
+        Picasso.get().load(uri).into(holder.reviewImage);
         holder.reviewTitle.setText(review.getTitle());
         holder.reviewRating.setRating(review.getRating());
         holder.reviewUser.setText(review.getUsername());

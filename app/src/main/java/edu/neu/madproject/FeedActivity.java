@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,17 +29,25 @@ public class FeedActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     FeedAdapter feedAdapter;
     List<Reviews> reviewList;
-
+    FloatingActionButton floatingActionButton;
+    Button writeReview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
-
+        floatingActionButton=(FloatingActionButton) findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentWriteReview = new Intent(FeedActivity.this, WriteReviewActivity.class);
+                startActivity(intentWriteReview);
+            }
+        });
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         reviewList = new ArrayList<>();
 
-        DatabaseReference reference = database.getReference().child("review");
+        DatabaseReference reference = database.getReference().child("reviews");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -61,4 +73,9 @@ public class FeedActivity extends AppCompatActivity {
     }
 
 
+
+
+public void openReview(View view){
+
+}
 }

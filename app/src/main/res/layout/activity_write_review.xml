@@ -1,9 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WriteReviewActivity">
+    android:id="@+id/relativeLayout"
+    tools:context=".LoginActivity"
+    android:background="@color/white">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/topbar">
+
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+      >
+
+
+
+        <ImageButton
+            android:id="@+id/productImage"
+            android:background="@drawable/edittext_shape"
+            android:layout_width="130dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:layout_height="130dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24" />
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/title"
+                android:background="@drawable/edittext_shape"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="25dp"
+                android:paddingTop="25dp"
+                android:hint="Item name"
+                android:paddingLeft="10dp"
+                android:textColor="@color/black"
+                android:textSize="25dp" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="250dp"
+            android:numStars = "5"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:stepSize="0.3"
+            />
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/midbar"
+        android:layout_below="@+id/topbar"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+   >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:paddingTop="15dp"
+           android:text="Category"
+            android:paddingBottom="10dp"
+            android:textColor="@color/black"
+            android:textSize="25dp" />
+
+        <Spinner
+            android:id="@+id/categorySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+           android:layout_marginRight="15dp"
+            android:background="@drawable/edittext_shape"
+            android:spinnerMode="dropdown"
+            android:layout_marginLeft="15dp"
+            android:minHeight="35dp"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+      android:id="@+id/editTextLayout"
+        >
+        <EditText
+            android:inputType="textMultiLine"
+            android:lines="10"
+            android:id="@+id/reviewDesc"
+            android:minLines="10"
+            android:gravity="top|start"
+            android:maxLines="10"
+            android:hint="Type here..."
+            android:background="@drawable/edittext_shape"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:scrollbars="vertical"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginEnd="10dp"
+        />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+     android:layout_below="@+id/editTextLayout">
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+
+            android:text="Submit" />
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_height="wrap_content"
+            ></ProgressBar>
+    </LinearLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>
