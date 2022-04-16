@@ -47,6 +47,10 @@ public class FeedActivity extends AppCompatActivity {
         }
     }
 
+    public void backButton(View view) {
+        onBackPressed();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
