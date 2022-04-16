@@ -80,7 +80,11 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
                 android:text="Content goes here"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:maxLines="3"
+                android:lines="3"
+                android:ellipsize="end"
+                />
         </LinearLayout>
     </LinearLayout>
 
