@@ -1,7 +1,6 @@
 package edu.neu.madproject;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 
 import androidx.annotation.NonNull;

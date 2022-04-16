@@ -62,19 +62,20 @@ public class NavFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_nav, container, false);
         catBtn = view.findViewById(R.id.cat_btn);
         feedBtn = view.findViewById(R.id.feeds_btn);
         youBtn = view.findViewById(R.id.you_btn);
 
         catBtn.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), CategoriesActivity.class));
-            if(getActivity().getClass().equals(CategoriesActivity.class)) getActivity().finish();
+            Intent intent = new Intent(getActivity(), CategoriesActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         });
         feedBtn.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), FeedActivity.class));
-            if(getActivity().getClass().equals(FeedActivity.class)) getActivity().finish();
+            Intent intent = new Intent(getActivity(), FeedActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         });
 //        youBtn.setOnClickListener(v -> {
 //            startActivity(new Intent(getActivity(), CategoriesActivity.class));
