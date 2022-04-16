@@ -43,6 +43,7 @@ public class WriteReviewActivity extends AppCompatActivity {
     ArrayList<String> categoriesList;
     Spinner categories;
     ImageButton productImg;
+    ImageView back;
     Uri ImageUri;
     TextView submitData;
     ProgressBar progressBar;
@@ -64,8 +65,15 @@ public class WriteReviewActivity extends AppCompatActivity {
         categoriesList = new ArrayList<String>();
         submitData=findViewById(R.id.submit);
         productImg=(ImageButton)findViewById(R.id.productImage);
+        back=findViewById(R.id.img_back);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WriteReviewActivity.this.finish();
+            }
+        });
         productImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
