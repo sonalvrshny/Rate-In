@@ -10,16 +10,26 @@ public class Reviews {
     private float rating;
     private String username;
     private String content;
+    private String category;
 
     public Reviews() {
     }
 
-    public Reviews(String content, String imageURL, float rating, String title, String username) {
+    public Reviews(String content, String imageURL, float rating, String title, String username, String category) {
         this.imageURL = imageURL;
         this.title = title;
         this.rating = rating;
         this.username = username;
         this.content = content;
+        this.category = category;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getImageURL() {
