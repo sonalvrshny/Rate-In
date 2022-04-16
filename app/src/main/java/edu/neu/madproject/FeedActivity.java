@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -34,7 +35,10 @@ public class FeedActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         reviewList = new ArrayList<>();
+        Intent intent = new Intent(FeedActivity.this, AccountActivity.class);
+//                        Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
 
+        startActivity(intent);
         DatabaseReference reference = database.getReference().child("review");
         reference.addValueEventListener(new ValueEventListener() {
             @Override

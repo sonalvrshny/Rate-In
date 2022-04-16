@@ -3,6 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MAD-Project/app/src/main/res/layout-w1240dp/content_scrolling.xml" value="0.16331994645247658" />
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MAD-Project/app/src/main/res/layout-w936dp/content_scrolling.xml" value="0.190625" />
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MAD-Project/app/src/main/res/layout/activity_account.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MAD-Project/app/src/main/res/layout/content_scrolling.xml" value="0.2" />
+        <entry key="..\:/Users/Dr Kusum Lata/OneDrive - Northeastern University/Documents/CS5520 MAD/AndroidStudioProjects/MAD-Project/app/src/main/res/layout/feed_card_row.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/shubh/AndroidStudioProjects/MAD-Project/app/src/main/res/drawable-v24/shape_item.xml" value="0.209" />
+        <entry key="..\:/Users/shubh/AndroidStudioProjects/MAD-Project/app/src/main/res/drawable/signin_shape.xml" value="0.4925" />
+        <entry key="..\:/Users/shubh/AndroidStudioProjects/MAD-Project/app/src/main/res/layout/activity_categories.xml" value="0.1625" />
+        <entry key="..\:/Users/shubh/AndroidStudioProjects/MAD-Project/app/src/main/res/layout/activity_feed.xml" value="0.4" />
+        <entry key="..\:/Users/shubh/AndroidStudioProjects/MAD-Project/app/src/main/res/layout/activity_main.xml" value="0.7005208333333334" />
+        <entry key="..\:/Users/shubh/AndroidStudioProjects/MAD-Project/app/src/main/res/layout/category_card.xml" value="0.5" />
         <entry key="app/src/main/res/drawable/edittext_shape.xml" value="0.4925" />
         <entry key="app/src/main/res/drawable/signin_shape.xml" value="0.4925" />
         <entry key="app/src/main/res/layout/activity_feed.xml" value="0.4" />
@@ -14,12 +25,6 @@
         <entry key="app/src/main/res/layout/feed_card_row.xml" value="0.268" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.4925" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_rating.xml" value="0.379" />
-        <entry key="..\:/Users/shubh/AndroidStudioProjects/MAD-Project/app/src/main/res/drawable-v24/shape_item.xml" value="0.209" />
-        <entry key="..\:/Users/shubh/AndroidStudioProjects/MAD-Project/app/src/main/res/drawable/signin_shape.xml" value="0.4925" />
-        <entry key="..\:/Users/shubh/AndroidStudioProjects/MAD-Project/app/src/main/res/layout/activity_categories.xml" value="0.1625" />
-        <entry key="..\:/Users/shubh/AndroidStudioProjects/MAD-Project/app/src/main/res/layout/activity_feed.xml" value="0.4" />
-        <entry key="..\:/Users/shubh/AndroidStudioProjects/MAD-Project/app/src/main/res/layout/activity_main.xml" value="0.7005208333333334" />
-        <entry key="..\:/Users/shubh/AndroidStudioProjects/MAD-Project/app/src/main/res/layout/category_card.xml" value="0.5" />
       </map>
     </option>
   </component>
