@@ -12,14 +12,15 @@
         android:id="@+id/toolbar_feed"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/blue">
 
         <ImageView
             android:id="@+id/img_back"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_gravity="center"
-            android:background="@drawable/back_button" />
+            android:background="@drawable/ic_baseline_arrow_back_24" />
 
         <TextView
             android:layout_width="0dp"
@@ -28,7 +29,7 @@
             android:layout_weight="1"
             android:text="FEED"
             android:textAlignment="center"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="25sp" />
 
         <ImageView
@@ -36,7 +37,7 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_gravity="center"
-            android:background="@drawable/search_button" />
+            android:background="@drawable/ic_baseline_search_24" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
