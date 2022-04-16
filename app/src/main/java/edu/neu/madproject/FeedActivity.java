@@ -33,6 +33,19 @@ public class FeedActivity extends AppCompatActivity {
     List<Reviews> reviewList;
     FloatingActionButton floatingActionButton;
     Button writeReview;
+    boolean backPressed = false;
+    @Override
+    public void onBackPressed() {
+        if (backPressed){// || this.prevPage == null || this.prevPage.equals("category")) {
+            super.onBackPressed();
+        } else {
+            Toast.makeText(this, "Press back again to logout", Toast.LENGTH_LONG).show();
+            backPressed = true;
+            new Handler().postDelayed(() -> {
+                backPressed = false;
+            }, 1500);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
