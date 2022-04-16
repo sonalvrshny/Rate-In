@@ -44,12 +44,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         holder.reviewRating.setRating(review.getRating());
         holder.reviewUser.setText(review.getUsername());
         holder.reviewContent.setText(review.getContent());
+        holder.reviewCategory.setText(review.getCategory());
 
         holder.itemView.setOnClickListener(view -> {
             Intent intent  = new Intent(feedActivity, ReadReviewActivity.class);
             intent.putExtra("image", url);
             intent.putExtra("title",review.getTitle());
-            intent.putExtra("category",review.getTitle());
+            intent.putExtra("category",review.getCategory());
             intent.putExtra("rating",review.getRating());
             intent.putExtra("username",review.getUsername());
             intent.putExtra("content",review.getContent());
@@ -69,6 +70,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         RatingBar reviewRating;
         TextView reviewUser;
         TextView reviewContent;
+        TextView reviewCategory;
         public ViewHolder(@NonNull View itemView){
             super(itemView);
             reviewImage=itemView.findViewById(R.id.review_image);
@@ -76,6 +78,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             reviewRating=itemView.findViewById(R.id.review_rating);
             reviewUser=itemView.findViewById(R.id.review_user);
             reviewContent=itemView.findViewById(R.id.review_content);
+            reviewCategory=itemView.findViewById(R.id.review_category);
         }
     }
 }
