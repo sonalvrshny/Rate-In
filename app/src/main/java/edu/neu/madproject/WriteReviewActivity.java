@@ -1,11 +1,15 @@
 package edu.neu.madproject;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -34,8 +38,11 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class WriteReviewActivity extends AppCompatActivity {
     FirebaseDatabase database;
@@ -54,7 +61,6 @@ public class WriteReviewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_write_review);
         auth = FirebaseAuth.getInstance();
         simpleRatingBar = (RatingBar) findViewById(R.id.ratingBar);
@@ -68,6 +74,24 @@ public class WriteReviewActivity extends AppCompatActivity {
         back=findViewById(R.id.img_back);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
+        ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        // doSomeOperations();
+                        Intent data = result.getData();
+                        ImageUri = Objects.requireNonNull(data).getData();
+                        InputStream imageStream = null;
+                        try {
+                            imageStream = getContentResolver().openInputStream(ImageUri);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        BitmapFactory.decodeStream(imageStream);
+                        productImg.setImageURI(ImageUri);// To display selected image in image view
+                    }
+                });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,10 +101,13 @@ public class WriteReviewActivity extends AppCompatActivity {
         productImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent openGallery=new Intent();
-                openGallery.setAction(Intent.ACTION_GET_CONTENT);
-                openGallery.setType("image/*");
-                startActivityForResult(openGallery,2);
+//                Intent openGallery=new Intent();
+//                openGallery.setAction(Intent.ACTION_GET_CONTENT);
+//                openGallery.setType("image/*");
+//                startActivityForResult(openGallery,2);
+                Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                photoPickerIntent.setType("image/*");
+                someActivityResultLauncher.launch(photoPickerIntent);
             }
         });
         submitData.setOnClickListener(new View.OnClickListener() {
@@ -101,9 +128,7 @@ public class WriteReviewActivity extends AppCompatActivity {
             for (DataSnapshot dataSnapshot1 : task1.getResult().getChildren()) {
                 String key = dataSnapshot1.getKey().toString();
                 categoriesList.add(key);
-
             }
-
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,categoriesList);
             arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             categories.setAdapter(arrayAdapter);
@@ -152,13 +177,13 @@ public class WriteReviewActivity extends AppCompatActivity {
         MimeTypeMap mime= MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(muri));
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==2 && resultCode==RESULT_OK && data!=null){
-        ImageUri=data.getData();
-        productImg.setImageURI(ImageUri);
-        }
-    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(requestCode==2 && resultCode==RESULT_OK && data!=null){
+//        ImageUri=data.getData();
+//        productImg.setImageURI(ImageUri);
+//        }
+//    }
 }
