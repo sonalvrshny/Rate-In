@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                         Intent intent = new Intent(LoginActivity.this, FeedActivity.class);
                         // Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
                         intent.putExtra("user", usernameDB);
+                        intent.putExtra("prev", "auth");
                         startActivity(intent);
                         Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
                     }

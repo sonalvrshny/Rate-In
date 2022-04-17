@@ -34,9 +34,10 @@ public class FeedActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     Button writeReview;
     boolean backPressed = false;
+    String prevPage = null;
     @Override
     public void onBackPressed() {
-        if (backPressed){// || this.prevPage == null || this.prevPage.equals("category")) {
+        if (backPressed || (this.prevPage != null && this.prevPage.equals("category_ignore"))) {
             super.onBackPressed();
         } else {
             Toast.makeText(this, "Press back again to logout", Toast.LENGTH_LONG).show();
@@ -65,6 +66,7 @@ public class FeedActivity extends AppCompatActivity {
                     .add(R.id.fragment_container_view, NavFragment.class, bundle)
                     .commit();
         }
+        this.prevPage = getIntent().getStringExtra("prev");
         floatingActionButton=(FloatingActionButton) findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

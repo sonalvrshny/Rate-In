@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +25,7 @@ public class CategoriesActivity extends AppCompatActivity {
     List<Pair<String, String>> categoryList;
     CategoryAdapter categoriesAdapter;
     RecyclerView categoriesRecycler;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class CategoriesActivity extends AppCompatActivity {
         }
 
         categoryList = new ArrayList<>();
+        auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference().child("categories");
         reference.addValueEventListener(new ValueEventListener() {
