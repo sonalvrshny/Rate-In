@@ -78,6 +78,8 @@ public class FeedActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         reviewList = new ArrayList<>();
+        //Intent intent = new Intent(FeedActivity.this, AccountActivity.class);
+//                        Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
 
         DatabaseReference reference = database.getReference().child("reviews");
         reference.addValueEventListener(new ValueEventListener() {
