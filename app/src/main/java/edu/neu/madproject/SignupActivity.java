@@ -83,7 +83,7 @@ public class SignupActivity extends AppCompatActivity {
                 Log.d(TAG, username + " " + password);
 //                Log.d(TAG, "task success " + reference);
                 auth.createUserWithEmailAndPassword(usernameDB, password).addOnCompleteListener(task ->  {
-                    DatabaseReference reference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
+//                    DatabaseReference reference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
                     Log.d(TAG, "task success " + task.isSuccessful());
                     if (task.isSuccessful()) {
                         reference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));

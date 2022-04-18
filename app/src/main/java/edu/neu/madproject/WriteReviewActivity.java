@@ -146,7 +146,10 @@ public class WriteReviewActivity extends AppCompatActivity {
                 public void onSuccess(Uri uri) {
                     progressBar.setVisibility(View.INVISIBLE);
 
-                    WriteReviewModel model =new WriteReviewModel(uri.toString(),editTitle.getText().toString(),simpleRatingBar.getRating(),categories.getSelectedItem().toString(),editDesc.getText().toString(),auth.getCurrentUser().getEmail().split("@")[0]);
+                    WriteReviewModel model =new WriteReviewModel(uri.toString(),
+                            editTitle.getText().toString(),simpleRatingBar.getRating(),
+                            categories.getSelectedItem().toString(),editDesc.getText().toString(),
+                            auth.getCurrentUser().getEmail().split("@")[0], auth.getUid());
                     String modelId=imageUpload.push().getKey();
                     imageUpload.child(modelId).setValue(model);
                     Snackbar.make(findViewById(R.id.relativeLayout), "Review submitted",

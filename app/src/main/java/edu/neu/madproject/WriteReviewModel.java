@@ -7,6 +7,7 @@ public class WriteReviewModel {
     private String category;
     private String content;
     private String username;
+    private String uid;
     public String getTitle() {
         return title;
     }
@@ -39,6 +40,14 @@ public class WriteReviewModel {
         this.content = content;
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     public WriteReviewModel(){
 
     }
@@ -62,13 +71,14 @@ public class WriteReviewModel {
         this.username = username;
     }
 
-    public WriteReviewModel(String imageURL, String title, Float rating, String category, String content, String username){
+    public WriteReviewModel(String imageURL, String title, Float rating, String category, String content, String username, String uid){
         this.imageURL = imageURL;
         this.title=title;
         this.rating=rating;
         this.category=category;
         this.content=content;
         this.username=username;
+        this.uid=uid;
 
     }
 }
