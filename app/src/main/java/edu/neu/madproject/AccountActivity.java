@@ -54,10 +54,10 @@ public class AccountActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseDatabase database;
     ImageView profilePic;
-    Uri imageUri;
     ActivityResultLauncher<String> getImage;
     StorageReference storageReference;
     DatabaseReference databaseReference;
+    Button uploadImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,30 +68,18 @@ public class AccountActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
-        //System.out.println(reference);
         databaseReference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
+        uploadImage = findViewById(R.id.upload);
         profilePic = findViewById(R.id.profilePic);
         Button logout = findViewById(R.id.logout);
         CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
-        final String[][] split = new String[1][1];// = username.split("@");
+        final String[][] split = new String[1][1];
         System.out.println(Objects.requireNonNull(Objects.requireNonNull(auth.getCurrentUser()).getMetadata()).getLastSignInTimestamp());
 
-        getImage = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
-            @Override
-            public void onActivityResult(Uri result) {
-                //profilePic.setImageURI(result);
-                uploadToFirebase(result);
-            }
-        });
-        profilePic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getImage.launch("image/*");
-
-            }
-        });
+        uploadImage.setOnClickListener(view -> getImage.launch("image/*"));
+        getImage = registerForActivityResult(new ActivityResultContracts.GetContent(), this::uploadToFirebase);
         logout.setOnClickListener(view -> {
             Intent intent = new Intent(AccountActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -99,41 +87,14 @@ public class AccountActivity extends AppCompatActivity {
             auth.signOut();
             AccountActivity.this.finish();
         });
-        /*databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Users users = dataSnapshot.getValue(Users.class);
-                    assert users != null;
-                    if (users.getUid().equals(auth.getUid())) {
-                        split[0] = users.getUsername().split("@");
-                        toolBarLayout.setTitle(split[0][0]);
-                        profilePic.setImageURI(Uri.parse(users.getImageUrl()));
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
-        /*databaseReference.get().addOnCompleteListener(task -> {
-            DataSnapshot dataSnapshot = task.getResult();
-            split[0] = dataSnapshot.child("username").getValue().toString().split("@");
-            toolBarLayout.setTitle(split[0][0]);
-            //profilePic.setImageURI();
-            Picasso.get().load(Uri.parse(dataSnapshot.child("imageUrl").getValue().toString())).into(profilePic);
-        });*/
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                split[0] = snapshot.child("username").getValue().toString().split("@");
+                split[0] = Objects.requireNonNull(snapshot.child("username").getValue()).toString().split("@");
                 toolBarLayout.setTitle(split[0][0]);
                 if(snapshot.hasChild("imageUrl")) {
-                    Picasso.get().load(Uri.parse(snapshot.child("imageUrl").getValue().toString())).into(profilePic);
+                    Picasso.get().load(Uri.parse(Objects.requireNonNull(snapshot.child("imageUrl").getValue()).toString())).into(profilePic);
                 }
             }
 
@@ -145,26 +106,10 @@ public class AccountActivity extends AppCompatActivity {
     }
     private void uploadToFirebase(Uri uri) {
         StorageReference local = storageReference.child(System.currentTimeMillis() + "." + fetchFileExtension(uri));
-        local.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                local.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        databaseReference.child("imageUrl").setValue(uri.toString());
-                    }
-                });
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+        local.putFile(uri).addOnSuccessListener(taskSnapshot -> local.getDownloadUrl().addOnSuccessListener(uri1 -> databaseReference.child("imageUrl").setValue(uri1.toString()))).addOnProgressListener(snapshot -> {
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
+        }).addOnFailureListener(e -> {
 
-            }
         });
     }
 
