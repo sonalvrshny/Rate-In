@@ -12,8 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RateIn">
         <activity
+
             android:name=".ReadReviewActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".AccountActivity"
+            android:exported="false"
+            android:label="@string/title_activity_account"
+            android:theme="@style/Theme.RateIn.NoActionBar" />
+
         <activity
             android:name=".CategoriesActivity"
             android:exported="false" />
