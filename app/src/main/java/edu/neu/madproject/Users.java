@@ -8,23 +8,14 @@ public class Users {
     String uid;
     String username;
     Map<String, Long> history;
+    Map<String, Long> writeHistory;
 
     public Users() {
     }
 
-    public Users(String uid, String username, List<String> emojiList) {
+    public Users(String uid, String username) {
         this.uid = uid;
         this.username = username;
-        history = new HashMap<>();
-        for (String key : emojiList) {
-            history.put(key, 0L);
-        }
-    }
-
-    public Users(String uid, String username, Map<String, Long> emojiList) {
-        this.uid = uid;
-        this.username = username;
-        history = emojiList;
     }
 
     public String getUid() {
@@ -41,14 +32,5 @@ public class Users {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-
-    public Map<String, Long> getHistory() {
-        return this.history;
-    }
-
-    public void setHistory(Map<String, Long> history) {
-        this.history = history;
     }
 }

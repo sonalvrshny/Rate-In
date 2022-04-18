@@ -88,7 +88,7 @@ public class SignupActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         reference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
                         Log.d(TAG, "Created an account with credentials");
-                        Users user = new Users(auth.getUid(), usernameDB, new HashMap<>());
+                        Users user = new Users(auth.getUid(), usernameDB);
                         reference.setValue(user).addOnCompleteListener(task1 -> {
                             if (task1.isSuccessful()) {
 //                        Intent intent = new Intent(SignupActivity.this, FeedActivity.class);

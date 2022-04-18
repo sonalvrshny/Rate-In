@@ -61,7 +61,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(CategoryAdapter.this.context, FeedActivity.class);
 //            Intent intent = new Intent(SignupActivity.this, CategoriesActivity.class);
-            DatabaseReference sender = database.getReference().child("user").child(auth.getUid());
+            DatabaseReference sender = database.getReference().child("userHistory").child(auth.getUid());
             intent.putExtra("category", catName);
             intent.putExtra("prev", "category_ignore");
             sender.get().addOnCompleteListener(getTask -> {
@@ -70,13 +70,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                     return;
                 }
                 DataSnapshot snapshot = getTask.getResult();
-                Map<String, Long> history = (Map<String, Long>) snapshot.child("history").getValue();
+                Map<String, Long> history = (Map<String, Long>) snapshot.child("reads").getValue();
+                Map<String, Long> wHistory = (Map<String, Long>) snapshot.child("writes").getValue();
                 if(history == null) history = new HashMap<>();
+                if(wHistory == null) wHistory = new HashMap<>();
                 history.put(catName, history.getOrDefault(catName, 0L) + 1);
-                Users users = new Users(auth.getUid(),
-                        snapshot.child("username").getValue().toString(),
-                        history);
-                sender.setValue(users).addOnCompleteListener(setTask -> {
+                UsersStats stats = new UsersStats(history, wHistory);
+                sender.setValue(stats).addOnCompleteListener(setTask -> {
                     if (!setTask.isSuccessful()) {
                         Log.e("Stat Update failed", "There was an error while updating stats");
                     }

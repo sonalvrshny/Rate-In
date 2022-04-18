@@ -42,6 +42,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class WriteReviewActivity extends AppCompatActivity {
@@ -155,6 +156,27 @@ public class WriteReviewActivity extends AppCompatActivity {
                     Snackbar.make(findViewById(R.id.relativeLayout), "Review submitted",
                             Snackbar.LENGTH_SHORT)
                             .show();
+                    DatabaseReference sender = database.getReference().child("userHistory").child(auth.getUid());
+                    sender.get().addOnCompleteListener(getTask -> {
+                        if (!getTask.isSuccessful()) {
+                            Log.e("Stat Update failed", "There was an error while updating stats");
+                            return;
+                        }
+                        DataSnapshot snapshot = getTask.getResult();
+                        Map<String, Long> history = (Map<String, Long>) snapshot.child("reads").getValue();
+                        Map<String, Long> wHistory = (Map<String, Long>) snapshot.child("writes").getValue();
+                        if(history == null) history = new HashMap<>();
+                        if(wHistory == null) wHistory = new HashMap<>();
+                        wHistory.put(categories.getSelectedItem().toString(),
+                                wHistory.getOrDefault(categories.getSelectedItem().toString(),
+                                        0L) + 1);
+                        UsersStats stats = new UsersStats(history, wHistory);
+                        sender.setValue(stats).addOnCompleteListener(setTask -> {
+                            if (!setTask.isSuccessful()) {
+                                Log.e("Stat Update failed", "There was an error while updating stats");
+                            }
+                        });
+                    });
                     WriteReviewActivity.this.finish();
                 }
             });
