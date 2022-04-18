@@ -14,13 +14,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private Context feedActivity;
     private List<Reviews> reviewsList;
+    FirebaseAuth auth;
+    FirebaseDatabase database;
 
     public FeedAdapter(FeedActivity feedActivity, List<Reviews> reviewsList) {
         this.feedActivity = feedActivity;
@@ -31,6 +39,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(feedActivity).inflate(R.layout.feed_card_row,parent,false);
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
         return new ViewHolder(view);
     }
 
@@ -54,6 +64,26 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             intent.putExtra("rating",review.getRating());
             intent.putExtra("username",review.getUsername());
             intent.putExtra("content",review.getContent());
+            DatabaseReference sender = database.getReference().child("userHistory").child(auth.getUid());
+            sender.get().addOnCompleteListener(getTask -> {
+                if (!getTask.isSuccessful()) {
+                    Log.e("Stat Update failed", "There was an error while updating stats");
+                    return;
+                }
+                DataSnapshot snapshot = getTask.getResult();
+                Map<String, Long> history = (Map<String, Long>) snapshot.child("reads").getValue();
+                Map<String, Long> wHistory = (Map<String, Long>) snapshot.child("writes").getValue();
+                if(history == null) history = new HashMap<>();
+                if(wHistory == null) wHistory = new HashMap<>();
+                history.put(review.getCategory(), history.getOrDefault(review.getCategory(),
+                                0L) + 1);
+                UsersStats stats = new UsersStats(history, wHistory);
+                sender.setValue(stats).addOnCompleteListener(setTask -> {
+                    if (!setTask.isSuccessful()) {
+                        Log.e("Stat Update failed", "There was an error while updating stats");
+                    }
+                });
+            });
             feedActivity.startActivity(intent);
         });
     }

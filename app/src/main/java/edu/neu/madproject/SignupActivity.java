@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 
@@ -80,8 +81,9 @@ public class SignupActivity extends AppCompatActivity {
                 username += "@gmail.com";
                 String usernameDB = username;
                 Log.d(TAG, username + " " + password);
-                Log.d(TAG, "task success " + reference);
+//                Log.d(TAG, "task success " + reference);
                 auth.createUserWithEmailAndPassword(usernameDB, password).addOnCompleteListener(task ->  {
+//                    DatabaseReference reference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
                     Log.d(TAG, "task success " + task.isSuccessful());
                     if (task.isSuccessful()) {
                         reference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
@@ -92,6 +94,7 @@ public class SignupActivity extends AppCompatActivity {
 //                        Intent intent = new Intent(SignupActivity.this, FeedActivity.class);
                                 Intent intent = new Intent(SignupActivity.this, CategoriesActivity.class);
                                 intent.putExtra("user", usernameDB);
+                                intent.putExtra("prev", "auth");
                                 startActivity(intent);
                                 Toast.makeText(SignupActivity.this, "User created successfully!", Toast.LENGTH_SHORT).show();
                             }

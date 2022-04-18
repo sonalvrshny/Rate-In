@@ -11,17 +11,20 @@ public class Reviews {
     private String username;
     private String content;
     private String category;
+    private String uid;
 
     public Reviews() {
     }
 
-    public Reviews(String content, String imageURL, float rating, String title, String username, String category) {
+    public Reviews(String content, String imageURL, float rating, String title, String username,
+                   String category, String uid) {
         this.imageURL = imageURL;
         this.title = title;
         this.rating = rating;
         this.username = username;
         this.content = content;
         this.category = category;
+        this.uid = uid;
     }
 
     public String getCategory() {
@@ -70,5 +73,13 @@ public class Reviews {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }
