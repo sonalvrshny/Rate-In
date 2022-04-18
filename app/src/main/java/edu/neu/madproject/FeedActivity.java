@@ -2,13 +2,18 @@ package edu.neu.madproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -102,10 +107,31 @@ public class FeedActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.search_menu, menu);
+//        MenuItem menuItem = menu.findItem(R.id.img_search);
+//        SearchView searchView = (SearchView) menuItem.getActionView();
 
+        SearchView searchView = findViewById(R.id.img_search);
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-public void openReview(View view){
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                feedAdapter.getFilter().filter(newText);
+                Log.d(TAG, newText);
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public void openReview(View view){
 
 }
 }

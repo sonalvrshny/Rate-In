@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -16,15 +18,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
+public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> implements Filterable {
     private Context feedActivity;
     private List<Reviews> reviewsList;
+    private List<Reviews> reviewsListAll;
 
     public FeedAdapter(FeedActivity feedActivity, List<Reviews> reviewsList) {
         this.feedActivity = feedActivity;
         this.reviewsList = reviewsList;
+        this.reviewsListAll = new ArrayList<>(reviewsList);
     }
 
     @NonNull
@@ -62,6 +68,39 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public int getItemCount() {
         return reviewsList.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<Reviews> filteredList = new ArrayList<>();
+            if (charSequence.toString().isEmpty()) {
+                filteredList.addAll(reviewsListAll);
+            } else {
+                for (Reviews review : reviewsList) {
+                    String title = review.getTitle();
+                    if (title.toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                        filteredList.add(review);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            reviewsList.clear();
+            reviewsList.addAll((Collection<? extends Reviews>) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
 
 
     class ViewHolder extends RecyclerView.ViewHolder {
