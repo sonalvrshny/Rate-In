@@ -41,6 +41,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -76,7 +77,7 @@ public class AccountActivity extends AppCompatActivity {
         Button logout = findViewById(R.id.logout);
         CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
         final String[][] split = new String[1][1];
-        System.out.println(Objects.requireNonNull(Objects.requireNonNull(auth.getCurrentUser()).getMetadata()).getLastSignInTimestamp());
+        //System.out.println(Objects.requireNonNull(Objects.requireNonNull(auth.getCurrentUser()).getMetadata()).getLastSignInTimestamp());
 
         uploadImage.setOnClickListener(view -> getImage.launch("image/*"));
         getImage = registerForActivityResult(new ActivityResultContracts.GetContent(), this::uploadToFirebase);
@@ -105,18 +106,36 @@ public class AccountActivity extends AppCompatActivity {
         });
     }
     private void uploadToFirebase(Uri uri) {
-        StorageReference local = storageReference.child(System.currentTimeMillis() + "." + fetchFileExtension(uri));
-        local.putFile(uri).addOnSuccessListener(taskSnapshot -> local.getDownloadUrl().addOnSuccessListener(uri1 -> databaseReference.child("imageUrl").setValue(uri1.toString()))).addOnProgressListener(snapshot -> {
 
-        }).addOnFailureListener(e -> {
-
-        });
+        if(uri!=null) {
+            separateThread sep = new separateThread(uri);
+            new Thread(sep).start();
+        }
     }
 
     private String fetchFileExtension(Uri uri) {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    class separateThread implements Runnable{
+
+        Uri uri;
+        public separateThread(Uri uri) {
+            this.uri = uri;
+        }
+
+        @Override
+        public void run() {
+            StorageReference local = storageReference.child(System.currentTimeMillis() + "." + fetchFileExtension(uri));
+            local.putFile(uri).addOnSuccessListener(taskSnapshot -> local.getDownloadUrl().addOnSuccessListener(uri1 -> databaseReference.child("imageUrl").setValue(uri1.toString()))).addOnProgressListener(snapshot -> {
+
+            }).addOnFailureListener(e -> {
+
+            });
+
+        }
     }
 
 }
