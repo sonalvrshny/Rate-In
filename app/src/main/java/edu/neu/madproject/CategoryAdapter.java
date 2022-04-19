@@ -72,10 +72,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 DataSnapshot snapshot = getTask.getResult();
                 Map<String, Long> history = (Map<String, Long>) snapshot.child("reads").getValue();
                 Map<String, Long> wHistory = (Map<String, Long>) snapshot.child("writes").getValue();
+                Map<String, Long> wTHistory = (Map<String, Long>) snapshot.child("tagWrites").getValue();
+                Map<String, Long> tHistory = (Map<String, Long>) snapshot.child("tagReads").getValue();
                 if(history == null) history = new HashMap<>();
                 if(wHistory == null) wHistory = new HashMap<>();
+                if(wTHistory == null) wTHistory = new HashMap<>();
+                if(tHistory == null) tHistory = new HashMap<>();
                 history.put(catName, history.getOrDefault(catName, 0L) + 1);
-                UsersStats stats = new UsersStats(history, wHistory);
+                UsersStats stats = new UsersStats(history, wHistory, tHistory, wTHistory);
                 sender.setValue(stats).addOnCompleteListener(setTask -> {
                     if (!setTask.isSuccessful()) {
                         Log.e("Stat Update failed", "There was an error while updating stats");
