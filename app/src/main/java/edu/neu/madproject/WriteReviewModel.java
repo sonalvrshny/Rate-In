@@ -1,5 +1,7 @@
 package edu.neu.madproject;
 
+import java.util.List;
+
 public class WriteReviewModel {
     private String imageURL;
     private String title;
@@ -8,6 +10,7 @@ public class WriteReviewModel {
     private String content;
     private String username;
     private String uid;
+    private List<String> tagList;
     public String getTitle() {
         return title;
     }
@@ -71,7 +74,8 @@ public class WriteReviewModel {
         this.username = username;
     }
 
-    public WriteReviewModel(String imageURL, String title, Float rating, String category, String content, String username, String uid){
+    public WriteReviewModel(String imageURL, String title, Float rating, String category,
+                            String content, String username, String uid, List<String> tags){
         this.imageURL = imageURL;
         this.title=title;
         this.rating=rating;
@@ -79,6 +83,14 @@ public class WriteReviewModel {
         this.content=content;
         this.username=username;
         this.uid=uid;
+        this.tagList = tags;
+    }
 
+    public List<String> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(List<String> tagList) {
+        this.tagList = tagList;
     }
 }

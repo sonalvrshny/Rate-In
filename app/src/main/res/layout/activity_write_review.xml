@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/relativeLayout"
@@ -101,98 +101,130 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/midbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/midbar"
         android:layout_below="@+id/topbar"
         android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
 
-   >
-
-        <TextView
-            android:layout_width="126dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:orientation="horizontal"
+
+            >
+
+            <TextView
+                android:layout_width="126dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-medium"
+                android:paddingTop="15dp"
+                android:paddingBottom="10dp"
+                android:text="Category"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="25dp" />
+
+            <Spinner
+                android:id="@+id/categorySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="11dp"
+                android:background="@drawable/edittext_shape"
+                android:minHeight="35dp"
+                android:spinnerMode="dropdown" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/editTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/reviewDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="25dp"
+                android:background="@drawable/edittext_shape"
+                android:gravity="top|start"
+                android:hint="Tell people what you think about this item..."
+                android:inputType="textMultiLine"
+                android:lines="10"
+                android:maxLines="10"
+                android:minLines="10"
+                android:padding="10dp"
+                android:scrollbars="vertical" />
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tags"
             android:layout_marginTop="10dp"
-            android:paddingTop="15dp"
-            android:textAlignment="center"
-           android:text="Category"
-            android:fontFamily="sans-serif-medium"
-            android:paddingBottom="10dp"
-            android:textColor="@color/black"
-            android:textSize="25dp" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
-        <Spinner
-            android:id="@+id/categorySpinner"
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_shape"
+                android:textColor="@color/black"
+                android:fontFamily="sans-serif-medium"
+                android:imeActionId="2"
+                android:imeOptions="actionNext|flagNoFullscreen"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:singleLine="true"   />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/group_tags"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="5dp"
-           android:layout_marginRight="11dp"
-            android:background="@drawable/edittext_shape"
-            android:spinnerMode="dropdown"
-            android:layout_marginLeft="15dp"
-            android:minHeight="35dp"
-            />
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-      android:id="@+id/editTextLayout"
-        >
-        <EditText
-            android:inputType="textMultiLine"
-            android:lines="10"
-            android:id="@+id/reviewDesc"
-            android:minLines="10"
-            android:gravity="top|start"
-            android:maxLines="10"
-            android:hint="Tell people what you think about this item..."
-            android:background="@drawable/edittext_shape"
-            android:padding="10dp"
             android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:scrollbars="vertical"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginEnd="10dp"
-        />
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-
-     android:layout_below="@+id/editTextLayout">
-
-<!--        <Button-->
-<!--            android:id="@+id/submit"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:gravity="center"-->
-<!--            android:layout_marginTop="10dp"-->
-
-<!--            android:text="Submit" />-->
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:id="@+id/progressBar"
             android:layout_height="wrap_content"
-            ></ProgressBar>
-    </LinearLayout>
+            android:layout_below="@+id/editTextLayout"
+            android:gravity="center"
+
+            android:orientation="vertical">
+
+            <!--        <Button-->
+            <!--            android:id="@+id/submit"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:gravity="center"-->
+            <!--            android:layout_marginTop="10dp"-->
+
+            <!--            android:text="Submit" />-->
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"></ProgressBar>
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:gravity="bottom"
-            >
+            android:gravity="bottom">
+
             <TextView
                 android:id="@+id/submit"
                 android:layout_width="fill_parent"
@@ -203,7 +235,7 @@
                 android:padding="10dp"
                 android:text="POST"
                 android:textColor="@color/white"
-                android:textSize="20dp"/>
+                android:textSize="20dp" />
         </LinearLayout>
     </LinearLayout>
 
