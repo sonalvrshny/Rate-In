@@ -4,6 +4,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 public class Reviews {
     private String imageURL;
     private String title;
@@ -12,12 +15,13 @@ public class Reviews {
     private String content;
     private String category;
     private String uid;
+    private ArrayList<String> tagList;
 
     public Reviews() {
     }
 
     public Reviews(String content, String imageURL, float rating, String title, String username,
-                   String category, String uid) {
+                   String category, String uid, ArrayList<String> tagList) {
         this.imageURL = imageURL;
         this.title = title;
         this.rating = rating;
@@ -25,6 +29,7 @@ public class Reviews {
         this.content = content;
         this.category = category;
         this.uid = uid;
+        this.tagList = tagList;
     }
 
     public String getCategory() {
@@ -81,5 +86,13 @@ public class Reviews {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public ArrayList<String> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(ArrayList<String> tagList) {
+        this.tagList = tagList;
     }
 }

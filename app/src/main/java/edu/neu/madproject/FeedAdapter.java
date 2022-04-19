@@ -73,11 +73,21 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 DataSnapshot snapshot = getTask.getResult();
                 Map<String, Long> history = (Map<String, Long>) snapshot.child("reads").getValue();
                 Map<String, Long> wHistory = (Map<String, Long>) snapshot.child("writes").getValue();
+                Map<String, Long> wTHistory = (Map<String, Long>) snapshot.child("tagWrites").getValue();
+                Map<String, Long> tHistory = (Map<String, Long>) snapshot.child("tagReads").getValue();
+                if(wTHistory == null) wTHistory = new HashMap<>();
+                if(tHistory == null) tHistory = new HashMap<>();
                 if(history == null) history = new HashMap<>();
                 if(wHistory == null) wHistory = new HashMap<>();
                 history.put(review.getCategory(), history.getOrDefault(review.getCategory(),
                                 0L) + 1);
-                UsersStats stats = new UsersStats(history, wHistory);
+                List<String> l = review.getTagList();
+                if(l != null) {
+                    for(String tag : l) {
+                        tHistory.put(tag, tHistory.getOrDefault(tag, 0L) + 1);
+                    }
+                }
+                UsersStats stats = new UsersStats(history, wHistory, tHistory, wTHistory);
                 sender.setValue(stats).addOnCompleteListener(setTask -> {
                     if (!setTask.isSuccessful()) {
                         Log.e("Stat Update failed", "There was an error while updating stats");
