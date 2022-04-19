@@ -176,6 +176,7 @@ public class WriteReviewActivity extends AppCompatActivity {
                 }
                 tags.setOnItemClickListener((adapterView, view, i, l) -> {
                     String item = String.valueOf(adapterView.getItemAtPosition(i));
+                    tags.setText("");
                     if(!selectTagList.contains(item)) {
                         selectTagList.add(item);
                         Chip c = new Chip(this);
