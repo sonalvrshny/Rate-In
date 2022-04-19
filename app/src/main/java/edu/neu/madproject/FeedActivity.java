@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FeedActivity extends AppCompatActivity {
+    private static final String PREV_PAGE = "PREV_PAGE";
     String TAG = "FeedActivityDebug";
     FirebaseAuth auth;
     FirebaseDatabase database;
@@ -34,6 +37,7 @@ public class FeedActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     Button writeReview;
     boolean backPressed = false;
+    String prevPageCat = null;
     String prevPage = null;
     @Override
     public void onBackPressed() {
@@ -66,7 +70,14 @@ public class FeedActivity extends AppCompatActivity {
                     .add(R.id.fragment_container_view, NavFragment.class, bundle)
                     .commit();
         }
+
+        this.prevPageCat = getIntent().getStringExtra("category");
         this.prevPage = getIntent().getStringExtra("prev");
+        if (savedInstanceState != null && savedInstanceState.containsKey(PREV_PAGE)
+                && (this.prevPage == null || this.prevPage.equals(""))) {
+            this.prevPage = savedInstanceState.getString(PREV_PAGE);
+        }
+        Log.d(TAG, "category clicked on " + prevPage);
         floatingActionButton=(FloatingActionButton) findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,11 +97,22 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 reviewList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Log.d(TAG, dataSnapshot.getValue().toString());
-                    Reviews review = dataSnapshot.getValue(Reviews.class);
-                    reviewList.add(review);
+                if (prevPageCat != null) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Reviews review = dataSnapshot.getValue(Reviews.class);
+                        if (prevPageCat.equalsIgnoreCase(review.getCategory())) {
+                            reviewList.add(review);
+                        }
+                    }
                 }
+                else {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Log.d(TAG, dataSnapshot.getValue().toString());
+                        Reviews review = dataSnapshot.getValue(Reviews.class);
+                        reviewList.add(review);
+                    }
+                }
+
                 feedAdapter.notifyDataSetChanged();
             }
 
@@ -104,6 +126,13 @@ public class FeedActivity extends AppCompatActivity {
         feedAdapter = new FeedAdapter(FeedActivity.this, reviewList);
         recyclerView.setAdapter(feedAdapter);
 
+    }
+
+    // Handling Orientation Changes on Android
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString(PREV_PAGE, this.prevPage);
+        super.onSaveInstanceState(outState);
     }
 
 
