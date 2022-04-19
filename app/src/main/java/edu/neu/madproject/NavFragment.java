@@ -77,9 +77,11 @@ public class NavFragment extends Fragment {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         });
-//        youBtn.setOnClickListener(v -> {
-//            startActivity(new Intent(getActivity(), CategoriesActivity.class));
-//        });
+        youBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), AccountActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        });
         return view;
     }
 }

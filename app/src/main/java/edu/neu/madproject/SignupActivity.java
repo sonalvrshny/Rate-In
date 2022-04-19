@@ -81,7 +81,9 @@ public class SignupActivity extends AppCompatActivity {
                 username += "@gmail.com";
                 String usernameDB = username;
                 Log.d(TAG, username + " " + password);
+
 //                Log.d(TAG, "task success " + reference);
+
                 auth.createUserWithEmailAndPassword(usernameDB, password).addOnCompleteListener(task ->  {
 //                    DatabaseReference reference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
                     Log.d(TAG, "task success " + task.isSuccessful());
@@ -89,6 +91,8 @@ public class SignupActivity extends AppCompatActivity {
                         reference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
                         Log.d(TAG, "Created an account with credentials");
                         Users user = new Users(auth.getUid(), usernameDB);
+                        DatabaseReference reference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
+                        Log.d(TAG, "task success " + reference);
                         reference.setValue(user).addOnCompleteListener(task1 -> {
                             if (task1.isSuccessful()) {
 //                        Intent intent = new Intent(SignupActivity.this, FeedActivity.class);
