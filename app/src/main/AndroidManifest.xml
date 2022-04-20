@@ -11,6 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_rating_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RateIn">
+        <receiver
+            android:name=".NotificationPublisher"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".ReadReviewActivity"
             android:exported="false" />
