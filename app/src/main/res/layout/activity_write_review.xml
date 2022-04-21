@@ -56,12 +56,13 @@
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:layout_height="130dp"
+            android:padding="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginEnd="10dp"
-            app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24" />
+            app:srcCompat="@drawable/ic_baseline_add_a_photo_24" />
 
     </LinearLayout>
 
@@ -77,9 +78,9 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:hint="Item name"
-                app:hintTextColor="@color/black"
+                android:textColorHint="@color/black"
                 android:textColor="@color/black"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="sans-serif"
                 android:layout_marginTop="25dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
@@ -88,13 +89,18 @@
 
         <RatingBar
             android:id="@+id/ratingBar"
-            android:layout_width="250dp"
+            android:layout_width="wrap_content"
             android:numStars = "5"
             android:layout_marginTop="10dp"
             android:theme="@style/RatingBar"
             android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:stepSize="0.3"
+            android:stepSize="1"
+            android:scaleX=".7"
+            android:scaleY=".7"
+            android:transformPivotX="0dp"
+            android:transformPivotY="0dp"
             />
 
 
@@ -159,7 +165,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="10dp"
-                app:hintTextColor="@color/black"
                 android:layout_marginRight="25dp"
                 android:background="@drawable/edittext_shape"
                 android:gravity="top|start"
@@ -169,7 +174,8 @@
                 android:maxLines="10"
                 android:minLines="10"
                 android:padding="10dp"
-                android:scrollbars="vertical" />
+                android:scrollbars="vertical"
+                android:textColorHint="@color/black" />
 
         </LinearLayout>
 
@@ -179,21 +185,20 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="5dp"
-            app:placeholderText="Tags"
-            app:placeholderTextColor="@color/black"
             app:expandedHintEnabled="false"
-           >
+            app:placeholderText="Tags"
+            app:placeholderTextColor="@color/black">
 
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/tags"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="@drawable/edittext_shape"
-                android:fontFamily="sans-serif-medium"
-                android:imeActionId="2"
-
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="6dp"
+                android:background="@drawable/edittext_shape"
+
+                android:fontFamily="sans-serif-medium"
+                android:imeActionId="2"
                 android:imeOptions="actionNext|flagNoFullscreen"
                 android:padding="10dp"
                 android:singleLine="true"
