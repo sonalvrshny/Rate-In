@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,7 +27,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 
 public class FeedActivity extends AppCompatActivity {
     private static final String PREV_PAGE = "PREV_PAGE";
@@ -39,7 +49,9 @@ public class FeedActivity extends AppCompatActivity {
     boolean backPressed = false;
     String prevPageCat = null;
     String prevPage = null;
+    Map<String,Long> dummy = new HashMap<>();
     /*@Override
+
     public void onBackPressed() {
         if (backPressed || (this.prevPage != null && this.prevPage.equals("category_ignore"))) {
             super.onBackPressed();
@@ -60,7 +72,6 @@ public class FeedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
-
         if (savedInstanceState == null) {
             Bundle bundle = new Bundle();
             bundle.putInt("some_int", 0);
@@ -86,33 +97,70 @@ public class FeedActivity extends AppCompatActivity {
                 startActivity(intentWriteReview);
             }
         });
+        reviewList = new ArrayList<>();
+        recyclerView = findViewById(R.id.feed_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        feedAdapter = new FeedAdapter(FeedActivity.this, reviewList);
+        recyclerView.setAdapter(feedAdapter);
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-        reviewList = new ArrayList<>();
+
         //Intent intent = new Intent(FeedActivity.this, AccountActivity.class);
 //                        Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
 
         DatabaseReference reference = database.getReference().child("reviews");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                reviewList.clear();
-                if (prevPageCat != null) {
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        Reviews review = dataSnapshot.getValue(Reviews.class);
-                        if (prevPageCat.equalsIgnoreCase(review.getCategory())) {
-                            reviewList.add(review);
-                        }
-                    }
-                }
-                else {
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        Log.d(TAG, dataSnapshot.getValue().toString());
-                        Reviews review = dataSnapshot.getValue(Reviews.class);
-                        reviewList.add(review);
-                    }
-                }
+        DatabaseReference reference1 = database.getReference().child("userHistory").child(Objects.requireNonNull(auth.getUid())).child("reads");
 
+
+
+        reference1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dummy = (Map<String, Long>) dataSnapshot.getValue();
+                reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        reviewList.clear();
+                        if (prevPageCat != null) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                Reviews review = dataSnapshot.getValue(Reviews.class);
+                                if (prevPageCat.equalsIgnoreCase(review.getCategory())) {
+                                    reviewList.add(review);
+                                }
+                            }
+                        }
+                        else {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                Log.d(TAG, dataSnapshot.getValue().toString());
+                                Reviews review = dataSnapshot.getValue(Reviews.class);
+                                reviewList.add(review);
+                            }
+                        }
+                        Collections.sort(reviewList, (reviews, t1) -> {
+                            String category1 = reviews.getCategory();
+                            String category2 = t1.getCategory();
+                            long catCount1 = 0;
+                            long catCount2 = 0;
+                            if(dummy==null) {
+                                dummy=new HashMap<>();
+                            }
+                            if(dummy.containsKey(category1)){
+                                catCount1 = (long) dummy.get(category1);
+                            }
+                            if(dummy.containsKey(category2)){
+                                catCount2 = (long) dummy.get(category2);
+                            }
+                            return (int) (catCount2-catCount1);
+                        });
+
+                        feedAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
                 feedAdapter.notifyDataSetChanged();
             }
 
@@ -120,12 +168,8 @@ public class FeedActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
-        recyclerView = findViewById(R.id.feed_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        feedAdapter = new FeedAdapter(FeedActivity.this, reviewList);
-        recyclerView.setAdapter(feedAdapter);
 
+        });
     }
 
     // Handling Orientation Changes on Android
@@ -134,6 +178,8 @@ public class FeedActivity extends AppCompatActivity {
         outState.putString(PREV_PAGE, this.prevPage);
         super.onSaveInstanceState(outState);
     }
+
+
 
 
 
