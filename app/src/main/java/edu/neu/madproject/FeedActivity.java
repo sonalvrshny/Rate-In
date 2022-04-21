@@ -50,7 +50,8 @@ public class FeedActivity extends AppCompatActivity {
     String prevPageCat = null;
     String prevPage = null;
     Map<String,Long> dummy = new HashMap<>();
-    @Override
+    /*@Override
+
     public void onBackPressed() {
         if (backPressed || (this.prevPage != null && this.prevPage.equals("category_ignore"))) {
             super.onBackPressed();
@@ -61,7 +62,7 @@ public class FeedActivity extends AppCompatActivity {
                 backPressed = false;
             }, 1500);
         }
-    }
+    }*/
 
     public void backButton(View view) {
         onBackPressed();
