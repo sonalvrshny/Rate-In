@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, FeedActivity.class);
 //            intent.putExtra("user", username_login.getText().toString());
 //            intent.putExtra("prev", "auth");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
 
@@ -84,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                         // Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
                         intent.putExtra("user", usernameDB);
                         intent.putExtra("prev", "auth");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
 //                        Calendar cal = Calendar.getInstance();
 //                        Helper.scheduleNotification(this, auth.getUid(), cal);
