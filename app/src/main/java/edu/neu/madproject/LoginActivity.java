@@ -15,6 +15,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class LoginActivity extends AppCompatActivity {
     String TAG = "LoginActivityDebug";
 
@@ -74,6 +77,8 @@ public class LoginActivity extends AppCompatActivity {
                         intent.putExtra("user", usernameDB);
                         intent.putExtra("prev", "auth");
                         startActivity(intent);
+//                        Calendar cal = Calendar.getInstance();
+//                        Helper.scheduleNotification(this, auth.getUid(), cal);
                         Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
                     }
                     else {
