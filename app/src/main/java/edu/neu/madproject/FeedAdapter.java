@@ -30,6 +30,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     FirebaseAuth auth;
     FirebaseDatabase database;
 
+    public void setFilteredList(List<Reviews> filterList){
+        this.reviewsList=filterList;
+        notifyDataSetChanged();
+    }
     public FeedAdapter(FeedActivity feedActivity, List<Reviews> reviewsList) {
         this.feedActivity = feedActivity;
         this.reviewsList = reviewsList;

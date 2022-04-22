@@ -122,7 +122,7 @@ public class WriteReviewActivity extends AppCompatActivity {
 //                openGallery.setAction(Intent.ACTION_GET_CONTENT);
 //                openGallery.setType("image/*");
 //                startActivityForResult(openGallery,2);
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 photoPickerIntent.setType("image/*");
                 someActivityResultLauncher.launch(photoPickerIntent);
             }
