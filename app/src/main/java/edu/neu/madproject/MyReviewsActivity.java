@@ -51,6 +51,7 @@ public class MyReviewsActivity extends AppCompatActivity {
                 reviewList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Reviews review = dataSnapshot.getValue(Reviews.class);
+                    assert review != null;
                     if(review.getUsername().equals(username)){
                         reviewList.add(review);
                     }
