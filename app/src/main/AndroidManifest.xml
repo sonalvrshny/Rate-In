@@ -3,6 +3,10 @@
     package="edu.neu.madproject">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -11,6 +15,15 @@
         android:roundIcon="@mipmap/ic_launcher_rating_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RateIn">
+        <service
+            android:name=".GPSService"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="edu.neu.madproject.LONGRUNSERVICE" />
+            </intent-filter>
+        </service>
+
         <receiver
             android:name=".NotificationPublisher"
             android:enabled="true"
