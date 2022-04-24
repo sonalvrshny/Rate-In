@@ -44,6 +44,26 @@ public class MyReviewsActivity extends AppCompatActivity {
         myReviewsAdapter = new MyReviewsAdapter(MyReviewsActivity.this, reviewList);
         recyclerView.setAdapter(myReviewsAdapter);
 
+        DatabaseReference reference = database.getReference().child("reviews");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                reviewList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Reviews review = dataSnapshot.getValue(Reviews.class);
+                    if(review.getUsername().equals(username)){
+                        reviewList.add(review);
+                    }
+                }
+
+                myReviewsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
 
