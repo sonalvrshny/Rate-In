@@ -130,12 +130,13 @@ public class WriteReviewActivity extends AppCompatActivity {
         submitData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(ImageUri!=null){
-                        uploadToFirebase(ImageUri);
+                if(ImageUri==null){
+                        uploadToFirebase(ImageUri, false);
                 }else{
-                    Snackbar.make(findViewById(R.id.relativeLayout), "Please select a image",
-                            Snackbar.LENGTH_SHORT)
-                            .show();
+//                    Snackbar.make(findViewById(R.id.relativeLayout), "Please select a image",
+//                            Snackbar.LENGTH_SHORT)
+//                            .show();
+                    uploadToFirebase(ImageUri, true);
                 }
             }
         });
@@ -228,72 +229,115 @@ public class WriteReviewActivity extends AppCompatActivity {
 
 }
 
-    private void uploadToFirebase(Uri uri) {
-        StorageReference fileRef=imageStorage.child(System.currentTimeMillis()+"."+getFileExtension(uri));
-        fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-            fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+    private void uploadToFirebase(Uri uri, boolean isImage) {
+        if(!isImage){
+            progressBar.setVisibility(View.INVISIBLE);
+            WriteReviewModel model = new WriteReviewModel(
+                    editTitle.getText().toString(), simpleRatingBar.getRating(),
+                    categories.getSelectedItem().toString(), editDesc.getText().toString(),
+                    auth.getCurrentUser().getEmail().split("@")[0], auth.getUid(),
+                    WriteReviewActivity.this.selectTagList);
+            String modelId = imageUpload.push().getKey();
+            imageUpload.child(modelId).setValue(model);
+            Snackbar.make(findViewById(R.id.relativeLayout), "Review submitted",
+                    Snackbar.LENGTH_SHORT)
+                    .show();
+            DatabaseReference sender = database.getReference().child("userHistory").child(auth.getUid());
+            sender.get().addOnCompleteListener(getTask -> {
+                if (!getTask.isSuccessful()) {
+                    Log.e("Stat Update failed", "There was an error while updating stats");
+                    return;
+                }
+                DataSnapshot snapshot = getTask.getResult();
+                Map<String, Long> history = (Map<String, Long>) snapshot.child("reads").getValue();
+                Map<String, Long> wHistory = (Map<String, Long>) snapshot.child("writes").getValue();
+                Map<String, Long> wTHistory = (Map<String, Long>) snapshot.child("tagWrites").getValue();
+                Map<String, Long> tHistory = (Map<String, Long>) snapshot.child("tagReads").getValue();
+                if (wTHistory == null) wTHistory = new HashMap<>();
+                if (tHistory == null) tHistory = new HashMap<>();
+                if (history == null) history = new HashMap<>();
+                if (wHistory == null) wHistory = new HashMap<>();
+                wHistory.put(categories.getSelectedItem().toString(),
+                        wHistory.getOrDefault(categories.getSelectedItem().toString(),
+                                0L) + 1);
+                for (String tag : selectTagList) {
+                    wTHistory.put(tag, wTHistory.getOrDefault(tag, 0L) + 1);
+                }
+                UsersStats stats = new UsersStats(history, wHistory, tHistory, wTHistory);
+                sender.setValue(stats).addOnCompleteListener(setTask -> {
+                    if (!setTask.isSuccessful()) {
+                        Log.e("Stat Update failed", "There was an error while updating stats");
+                    }
+                });
+            });
+            WriteReviewActivity.this.finish();
+        }
+        else {
+            StorageReference fileRef = imageStorage.child(System.currentTimeMillis() + "." + getFileExtension(uri));
+            fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
-                public void onSuccess(Uri uri) {
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            progressBar.setVisibility(View.INVISIBLE);
+                            WriteReviewModel model = new WriteReviewModel(uri.toString(),
+                                    editTitle.getText().toString(), simpleRatingBar.getRating(),
+                                    categories.getSelectedItem().toString(), editDesc.getText().toString(),
+                                    auth.getCurrentUser().getEmail().split("@")[0], auth.getUid(),
+                                    WriteReviewActivity.this.selectTagList);
+                            String modelId = imageUpload.push().getKey();
+                            imageUpload.child(modelId).setValue(model);
+                            Snackbar.make(findViewById(R.id.relativeLayout), "Review submitted",
+                                    Snackbar.LENGTH_SHORT)
+                                    .show();
+                            DatabaseReference sender = database.getReference().child("userHistory").child(auth.getUid());
+                            sender.get().addOnCompleteListener(getTask -> {
+                                if (!getTask.isSuccessful()) {
+                                    Log.e("Stat Update failed", "There was an error while updating stats");
+                                    return;
+                                }
+                                DataSnapshot snapshot = getTask.getResult();
+                                Map<String, Long> history = (Map<String, Long>) snapshot.child("reads").getValue();
+                                Map<String, Long> wHistory = (Map<String, Long>) snapshot.child("writes").getValue();
+                                Map<String, Long> wTHistory = (Map<String, Long>) snapshot.child("tagWrites").getValue();
+                                Map<String, Long> tHistory = (Map<String, Long>) snapshot.child("tagReads").getValue();
+                                if (wTHistory == null) wTHistory = new HashMap<>();
+                                if (tHistory == null) tHistory = new HashMap<>();
+                                if (history == null) history = new HashMap<>();
+                                if (wHistory == null) wHistory = new HashMap<>();
+                                wHistory.put(categories.getSelectedItem().toString(),
+                                        wHistory.getOrDefault(categories.getSelectedItem().toString(),
+                                                0L) + 1);
+                                for (String tag : selectTagList) {
+                                    wTHistory.put(tag, wTHistory.getOrDefault(tag, 0L) + 1);
+                                }
+                                UsersStats stats = new UsersStats(history, wHistory, tHistory, wTHistory);
+                                sender.setValue(stats).addOnCompleteListener(setTask -> {
+                                    if (!setTask.isSuccessful()) {
+                                        Log.e("Stat Update failed", "There was an error while updating stats");
+                                    }
+                                });
+                            });
+                            WriteReviewActivity.this.finish();
+                        }
+                    });
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
                     progressBar.setVisibility(View.INVISIBLE);
-
-                    WriteReviewModel model =new WriteReviewModel(uri.toString(),
-                            editTitle.getText().toString(),simpleRatingBar.getRating(),
-                            categories.getSelectedItem().toString(),editDesc.getText().toString(),
-                            auth.getCurrentUser().getEmail().split("@")[0], auth.getUid(),
-                            WriteReviewActivity.this.selectTagList);
-                    String modelId=imageUpload.push().getKey();
-                    imageUpload.child(modelId).setValue(model);
-                    Snackbar.make(findViewById(R.id.relativeLayout), "Review submitted",
+                    Snackbar.make(findViewById(R.id.relativeLayout), "Image Upload failed",
                             Snackbar.LENGTH_SHORT)
                             .show();
-                    DatabaseReference sender = database.getReference().child("userHistory").child(auth.getUid());
-                    sender.get().addOnCompleteListener(getTask -> {
-                        if (!getTask.isSuccessful()) {
-                            Log.e("Stat Update failed", "There was an error while updating stats");
-                            return;
-                        }
-                        DataSnapshot snapshot = getTask.getResult();
-                        Map<String, Long> history = (Map<String, Long>) snapshot.child("reads").getValue();
-                        Map<String, Long> wHistory = (Map<String, Long>) snapshot.child("writes").getValue();
-                        Map<String, Long> wTHistory = (Map<String, Long>) snapshot.child("tagWrites").getValue();
-                        Map<String, Long> tHistory = (Map<String, Long>) snapshot.child("tagReads").getValue();
-                        if(wTHistory == null) wTHistory = new HashMap<>();
-                        if(tHistory == null) tHistory = new HashMap<>();
-                        if(history == null) history = new HashMap<>();
-                        if(wHistory == null) wHistory = new HashMap<>();
-                        wHistory.put(categories.getSelectedItem().toString(),
-                                wHistory.getOrDefault(categories.getSelectedItem().toString(),
-                                        0L) + 1);
-                        for(String tag : selectTagList) {
-                            wTHistory.put(tag, wTHistory.getOrDefault(tag, 0L) + 1);
-                        }
-                        UsersStats stats = new UsersStats(history, wHistory, tHistory, wTHistory);
-                        sender.setValue(stats).addOnCompleteListener(setTask -> {
-                            if (!setTask.isSuccessful()) {
-                                Log.e("Stat Update failed", "There was an error while updating stats");
-                            }
-                        });
-                    });
-                    WriteReviewActivity.this.finish();
                 }
             });
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                progressBar.setVisibility(View.VISIBLE);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                progressBar.setVisibility(View.INVISIBLE);
-                Snackbar.make(findViewById(R.id.relativeLayout), "Image Upload failed",
-                        Snackbar.LENGTH_SHORT)
-                        .show();
-            }
-        });
+        }
     }
 
     private String getFileExtension(Uri muri) {

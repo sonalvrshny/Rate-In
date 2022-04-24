@@ -85,6 +85,17 @@ public class WriteReviewModel {
         this.uid=uid;
         this.tagList = tags;
     }
+    public WriteReviewModel (String title, Float rating, String category,
+                            String content, String username, String uid, List<String> tags){
+        this.imageURL ="";
+        this.title=title;
+        this.rating=rating;
+        this.category=category;
+        this.content=content;
+        this.username=username;
+        this.uid=uid;
+        this.tagList = tags;
+    }
 
     public List<String> getTagList() {
         return tagList;
