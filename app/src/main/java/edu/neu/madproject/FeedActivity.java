@@ -166,22 +166,7 @@ public class FeedActivity extends AppCompatActivity {
                                 reviewList.add(review);
                             }
                         }
-                        Collections.sort(reviewList, (reviews, t1) -> {
-                            String category1 = reviews.getCategory();
-                            String category2 = t1.getCategory();
-                            long catCount1 = 0;
-                            long catCount2 = 0;
-                            if (dummy == null) {
-                                dummy = new HashMap<>();
-                            }
-                            if (dummy.containsKey(category1)) {
-                                catCount1 = (long) dummy.get(category1);
-                            }
-                            if (dummy.containsKey(category2)) {
-                                catCount2 = (long) dummy.get(category2);
-                            }
-                            return (int) (catCount2 - catCount1);
-                        });
+                        Helper.sortForBest(reviewList, dummy);
 
                         feedAdapter.notifyDataSetChanged();
                     }
