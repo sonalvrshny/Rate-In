@@ -75,12 +75,11 @@ public class LoginActivity extends AppCompatActivity {
             }
             else {
                 // sign in with username and password provided
-                SharedPrefUtils.saveEmail(username, this);
-                SharedPrefUtils.savePassword(password, this);
-                username += "@gmail.com";
-                String usernameDB = username;
-                auth.signInWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
+                String usernameDB = username + "@gmail.com";
+                auth.signInWithEmailAndPassword(usernameDB, password).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        SharedPrefUtils.saveEmail(username, this);
+                        SharedPrefUtils.savePassword(password, this);
                         Intent intent = new Intent(LoginActivity.this, FeedActivity.class);
                         // Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
                         intent.putExtra("user", usernameDB);
