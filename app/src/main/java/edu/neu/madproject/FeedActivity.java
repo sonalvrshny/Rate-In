@@ -11,6 +11,9 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,6 +22,7 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +36,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -50,8 +55,11 @@ public class FeedActivity extends AppCompatActivity {
     String prevPageCat = null;
     String prevPage = null;
     Map<String,Long> dummy = new HashMap<>();
+    private androidx.appcompat.widget.SearchView searchView;
     /*@Override
 
+
+    @Override
     public void onBackPressed() {
         if (backPressed || (this.prevPage != null && this.prevPage.equals("category_ignore"))) {
             super.onBackPressed();
@@ -72,6 +80,23 @@ public class FeedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
+        searchView=findViewById(R.id.searchTitle);
+        searchView.clearFocus();
+
+
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterText(newText);
+                return true;
+            }
+        });
+
         if (savedInstanceState == null) {
             Bundle bundle = new Bundle();
             bundle.putInt("some_int", 0);
@@ -172,6 +197,22 @@ public class FeedActivity extends AppCompatActivity {
         });
     }
 
+    private void filterText(String s) {
+        List<Reviews> filterList=new ArrayList<>();
+        for (Reviews reviews:reviewList){
+            if(reviews.getTitle().toLowerCase().contains(s.toLowerCase())){
+                filterList.add(reviews);
+            }
+        }
+        if(filterList.isEmpty()){
+            Snackbar.make(findViewById(R.id.FeedsLayout), "No data found",
+                    Snackbar.LENGTH_SHORT)
+                    .show();
+        }else{
+                feedAdapter.setFilteredList(filterList);
+        }
+    }
+
     // Handling Orientation Changes on Android
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
@@ -180,11 +221,4 @@ public class FeedActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-public void openReview(View view){
-
-}
 }

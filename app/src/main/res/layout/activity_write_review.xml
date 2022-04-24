@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@color/white">
 <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:id="@+id/relativeLayout"
     tools:context=".LoginActivity"
+
     android:background="@color/white">
     <LinearLayout
         android:id="@+id/toolbar_feed"
@@ -53,12 +56,13 @@
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:layout_height="130dp"
+            android:padding="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginEnd="10dp"
-            app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24" />
+            app:srcCompat="@drawable/ic_baseline_add_a_photo_24" />
 
     </LinearLayout>
 
@@ -74,8 +78,9 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:hint="Item name"
+                android:textColorHint="@color/black"
                 android:textColor="@color/black"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="sans-serif"
                 android:layout_marginTop="25dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
@@ -84,13 +89,18 @@
 
         <RatingBar
             android:id="@+id/ratingBar"
-            android:layout_width="250dp"
+            android:layout_width="wrap_content"
             android:numStars = "5"
             android:layout_marginTop="10dp"
             android:theme="@style/RatingBar"
             android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:stepSize="0.3"
+            android:stepSize="1"
+            android:scaleX=".7"
+            android:scaleY=".7"
+            android:transformPivotX="0dp"
+            android:transformPivotY="0dp"
             />
 
 
@@ -105,7 +115,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/topbar"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -163,40 +174,46 @@
                 android:maxLines="10"
                 android:minLines="10"
                 android:padding="10dp"
-                android:scrollbars="vertical" />
+                android:scrollbars="vertical"
+                android:textColorHint="@color/black" />
 
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tags"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"
+            app:expandedHintEnabled="false"
+            app:placeholderText="Tags"
+            app:placeholderTextColor="@color/black">
 
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/tags"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
                 android:background="@drawable/edittext_shape"
-                android:textColor="@color/black"
+
                 android:fontFamily="sans-serif-medium"
                 android:imeActionId="2"
                 android:imeOptions="actionNext|flagNoFullscreen"
                 android:padding="10dp"
-                android:textSize="16sp"
-                android:singleLine="true"   />
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/group_tags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="50dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="12dp"/>
+            android:layout_marginEnd="12dp"
+            android:minHeight="50dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -241,6 +258,4 @@
 
 
 </RelativeLayout>
-
-
 </ScrollView>
