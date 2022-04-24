@@ -37,6 +37,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.os.FileUtils;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -82,11 +83,14 @@ public class AccountActivity extends AppCompatActivity {
         uploadImage.setOnClickListener(view -> getImage.launch("image/*"));
         getImage = registerForActivityResult(new ActivityResultContracts.GetContent(), this::uploadToFirebase);
         logout.setOnClickListener(view -> {
+            SharedPrefUtils.savePassword("", this);
+            SharedPrefUtils.saveEmail("", this);
             Intent intent = new Intent(AccountActivity.this, LoginActivity.class);
+            Log.d("SharedPref", intent.toString());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            auth.signOut();
             AccountActivity.this.finish();
+            auth.signOut();
         });
 
         databaseReference.addValueEventListener(new ValueEventListener() {
