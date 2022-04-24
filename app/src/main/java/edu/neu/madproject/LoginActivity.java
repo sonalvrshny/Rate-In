@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
+
 
 public class LoginActivity extends AppCompatActivity {
     String TAG = "LoginActivityDebug";
@@ -50,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
 //            intent.putExtra("user", username_login.getText().toString());
 //            intent.putExtra("prev", "auth");
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            Calendar cal = Calendar.getInstance();
+            Helper.scheduleNotification(this, auth.getUid(), cal);
             startActivity(intent);
         }
 
@@ -75,20 +79,19 @@ public class LoginActivity extends AppCompatActivity {
             }
             else {
                 // sign in with username and password provided
-                SharedPrefUtils.saveEmail(username, this);
-                SharedPrefUtils.savePassword(password, this);
-                username += "@gmail.com";
-                String usernameDB = username;
-                auth.signInWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
+                String usernameDB = username + "@gmail.com";
+                auth.signInWithEmailAndPassword(usernameDB, password).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        SharedPrefUtils.saveEmail(username, this);
+                        SharedPrefUtils.savePassword(password, this);
                         Intent intent = new Intent(LoginActivity.this, FeedActivity.class);
                         // Intent intent = new Intent(LoginActivity.this, CategoriesActivity.class);
                         intent.putExtra("user", usernameDB);
                         intent.putExtra("prev", "auth");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
-//                        Calendar cal = Calendar.getInstance();
-//                        Helper.scheduleNotification(this, auth.getUid(), cal);
+                        Calendar cal = Calendar.getInstance();
+                        Helper.scheduleNotification(this, auth.getUid(), cal);
                         Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
                     }
                     else {

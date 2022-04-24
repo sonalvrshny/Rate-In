@@ -2,50 +2,33 @@ package edu.neu.madproject;
 
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.webkit.MimeTypeMap;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.os.FileUtils;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.View;
-import android.webkit.MimeTypeMap;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 import edu.neu.madproject.databinding.ActivityAccountBinding;
@@ -60,6 +43,8 @@ public class AccountActivity extends AppCompatActivity {
     StorageReference storageReference;
     DatabaseReference databaseReference;
     Button uploadImage;
+    Button myReviewsButton;
+    TextView lastLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +58,15 @@ public class AccountActivity extends AppCompatActivity {
         databaseReference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
+        myReviewsButton = findViewById(R.id.myReviewsButton);
+        lastLogin = findViewById(R.id.lastLogin);
         uploadImage = findViewById(R.id.upload);
         profilePic = findViewById(R.id.profilePic);
         Button logout = findViewById(R.id.logout);
         CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
         final String[][] split = new String[1][1];
-        //System.out.println(Objects.requireNonNull(Objects.requireNonNull(auth.getCurrentUser()).getMetadata()).getLastSignInTimestamp());
-
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd 'at' HH:mm:ss");
+        lastLogin.append(formatter.format(new Date(Objects.requireNonNull(Objects.requireNonNull(auth.getCurrentUser()).getMetadata()).getLastSignInTimestamp())));
         uploadImage.setOnClickListener(view -> getImage.launch("image/*"));
         getImage = registerForActivityResult(new ActivityResultContracts.GetContent(), this::uploadToFirebase);
         logout.setOnClickListener(view -> {
@@ -93,6 +80,11 @@ public class AccountActivity extends AppCompatActivity {
             auth.signOut();
         });
 
+        myReviewsButton.setOnClickListener(view -> {
+            Intent intent = new Intent(AccountActivity.this,MyReviewsActivity.class);
+            intent.putExtra("username",toolBarLayout.getTitle());
+            startActivity(intent);
+        });
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

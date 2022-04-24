@@ -2,10 +2,16 @@ package edu.neu.madproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -30,6 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -114,7 +121,7 @@ public class FeedActivity extends AppCompatActivity {
             this.prevPage = savedInstanceState.getString(PREV_PAGE);
         }
         Log.d(TAG, "category clicked on " + prevPage);
-        floatingActionButton=(FloatingActionButton) findViewById(R.id.floatingActionButton);
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,7 +144,6 @@ public class FeedActivity extends AppCompatActivity {
         DatabaseReference reference1 = database.getReference().child("userHistory").child(Objects.requireNonNull(auth.getUid())).child("reads");
 
 
-
         reference1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -153,30 +159,14 @@ public class FeedActivity extends AppCompatActivity {
                                     reviewList.add(review);
                                 }
                             }
-                        }
-                        else {
+                        } else {
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 Log.d(TAG, dataSnapshot.getValue().toString());
                                 Reviews review = dataSnapshot.getValue(Reviews.class);
                                 reviewList.add(review);
                             }
                         }
-                        Collections.sort(reviewList, (reviews, t1) -> {
-                            String category1 = reviews.getCategory();
-                            String category2 = t1.getCategory();
-                            long catCount1 = 0;
-                            long catCount2 = 0;
-                            if(dummy==null) {
-                                dummy=new HashMap<>();
-                            }
-                            if(dummy.containsKey(category1)){
-                                catCount1 = (long) dummy.get(category1);
-                            }
-                            if(dummy.containsKey(category2)){
-                                catCount2 = (long) dummy.get(category2);
-                            }
-                            return (int) (catCount2-catCount1);
-                        });
+                        Helper.sortForBest(reviewList, dummy);
 
                         feedAdapter.notifyDataSetChanged();
                     }
@@ -195,6 +185,27 @@ public class FeedActivity extends AppCompatActivity {
             }
 
         });
+
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
+        } else {
+            ContextCompat.startForegroundService(this, new Intent(this, GPSService.class));
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 101 && permissions.length == 2
+                && permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION)
+                && permissions[1].equals(Manifest.permission.ACCESS_COARSE_LOCATION)
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+            ContextCompat.startForegroundService(this, new Intent(this, GPSService.class));
+        }
     }
 
     private void filterText(String s) {
