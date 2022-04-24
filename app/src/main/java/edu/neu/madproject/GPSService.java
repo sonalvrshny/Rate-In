@@ -74,7 +74,7 @@ public class GPSService extends Service {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String CHANNEL_ID = "my_channel_01";
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
-                    "Channel human readable title",
+                    "Tracking channel",
                     NotificationManager.IMPORTANCE_DEFAULT);
 
             ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
