@@ -43,9 +43,12 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 import edu.neu.madproject.databinding.ActivityAccountBinding;
@@ -61,6 +64,7 @@ public class AccountActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     Button uploadImage;
     Button myReviewsButton;
+    TextView lastLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,13 +79,14 @@ public class AccountActivity extends AppCompatActivity {
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
         myReviewsButton = findViewById(R.id.myReviewsButton);
+        lastLogin = findViewById(R.id.lastLogin);
         uploadImage = findViewById(R.id.upload);
         profilePic = findViewById(R.id.profilePic);
         Button logout = findViewById(R.id.logout);
         CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
         final String[][] split = new String[1][1];
-        //System.out.println(Objects.requireNonNull(Objects.requireNonNull(auth.getCurrentUser()).getMetadata()).getLastSignInTimestamp());
-
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd 'at' HH:mm:ss");
+        lastLogin.append(formatter.format(new Date(Objects.requireNonNull(Objects.requireNonNull(auth.getCurrentUser()).getMetadata()).getLastSignInTimestamp())));
         uploadImage.setOnClickListener(view -> getImage.launch("image/*"));
         getImage = registerForActivityResult(new ActivityResultContracts.GetContent(), this::uploadToFirebase);
         logout.setOnClickListener(view -> {
