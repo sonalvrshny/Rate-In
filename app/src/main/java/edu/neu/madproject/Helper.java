@@ -24,11 +24,11 @@ public class Helper {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-//        cal.set(Calendar.HOUR, 18);
+        cal.set(Calendar.HOUR, 12);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                10000, pendingIntent);
+                12 * 60 * 60 * 1000, pendingIntent);
     }
 
     //Based on https://www.geeksforgeeks.org/program-distance-two-points-earth/
