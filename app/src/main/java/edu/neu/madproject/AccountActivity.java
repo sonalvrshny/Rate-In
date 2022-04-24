@@ -60,6 +60,7 @@ public class AccountActivity extends AppCompatActivity {
     StorageReference storageReference;
     DatabaseReference databaseReference;
     Button uploadImage;
+    Button myReviewsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,7 @@ public class AccountActivity extends AppCompatActivity {
         databaseReference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
+        myReviewsButton = findViewById(R.id.myReviewsButton);
         uploadImage = findViewById(R.id.upload);
         profilePic = findViewById(R.id.profilePic);
         Button logout = findViewById(R.id.logout);
@@ -93,6 +95,11 @@ public class AccountActivity extends AppCompatActivity {
             auth.signOut();
         });
 
+        myReviewsButton.setOnClickListener(view -> {
+            Intent intent = new Intent(AccountActivity.this,MyReviewsActivity.class);
+            intent.putExtra("username",toolBarLayout.getTitle());
+            startActivity(intent);
+        });
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
