@@ -51,7 +51,16 @@ public class MyReviewsAdapter extends RecyclerView.Adapter<MyReviewsAdapter.View
         holder.reviewUser.setText(review.getUsername());
         holder.reviewContent.setText(review.getContent());
         holder.reviewCategory.setText(review.getCategory());
-
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent  = new Intent(myReviewsActivity, ReadReviewActivity.class);
+            intent.putExtra("image", url);
+            intent.putExtra("title",review.getTitle());
+            intent.putExtra("category",review.getCategory());
+            intent.putExtra("rating",review.getRating());
+            intent.putExtra("username",review.getUsername());
+            intent.putExtra("content",review.getContent());
+            myReviewsActivity.startActivity(intent);
+        });
     }
 
     @Override
