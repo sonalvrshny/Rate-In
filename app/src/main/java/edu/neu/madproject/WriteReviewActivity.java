@@ -103,6 +103,7 @@ public class WriteReviewActivity extends AppCompatActivity {
                         // There are no request codes
                         // doSomeOperations();
                         Bundle bundle = result.getData().getExtras();
+
                         if (bundle != null) {
                             Bitmap bitmap = (Bitmap) bundle.get("data");
                             productImg.setImageBitmap(bitmap);
