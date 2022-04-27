@@ -23,12 +23,19 @@ public class Helper {
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, uid);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent2 = PendingIntent.getBroadcast(context, 1,
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         cal.set(Calendar.HOUR, 12);
+        cal.set(Calendar.MINUTE, 30);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
                 12 * 60 * 60 * 1000, pendingIntent);
+        alarmManager.cancel(pendingIntent2);
+        cal.set(Calendar.HOUR, 7);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+                12 * 60 * 60 * 1000, pendingIntent2);
     }
 
     //Based on https://www.geeksforgeeks.org/program-distance-two-points-earth/
