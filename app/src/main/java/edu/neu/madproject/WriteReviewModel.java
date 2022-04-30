@@ -86,7 +86,7 @@ public class WriteReviewModel {
         this.tagList = tags;
     }
     public WriteReviewModel (String title, Float rating, String category,
-                             String content, String username, String uid, List<String> tags){
+                            String content, String username, String uid, List<String> tags){
         this.imageURL ="";
         this.title=title;
         this.rating=rating;
