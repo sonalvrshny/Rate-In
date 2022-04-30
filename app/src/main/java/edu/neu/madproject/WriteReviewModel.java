@@ -96,7 +96,6 @@ public class WriteReviewModel {
         this.uid=uid;
         this.tagList = tags;
     }
-
     public List<String> getTagList() {
         return tagList;
     }

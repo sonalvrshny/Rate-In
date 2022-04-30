@@ -131,7 +131,7 @@ public class WriteReviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(ImageUri==null){
-                        uploadToFirebase(ImageUri, false);
+                    uploadToFirebase(ImageUri, false);
                 }else{
 //                    Snackbar.make(findViewById(R.id.relativeLayout), "Please select a image",
 //                            Snackbar.LENGTH_SHORT)
@@ -225,9 +225,9 @@ public class WriteReviewActivity extends AppCompatActivity {
                     return handled;
                 });
             });
-    });
+        });
 
-}
+    }
 
     private void uploadToFirebase(Uri uri, boolean isImage) {
         if(!isImage){
