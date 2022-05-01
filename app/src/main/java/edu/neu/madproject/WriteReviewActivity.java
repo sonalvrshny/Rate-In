@@ -16,6 +16,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -48,9 +49,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -99,6 +103,7 @@ public class WriteReviewActivity extends AppCompatActivity {
         ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
+                    Log.d("camera", result.getResultCode() + "code");
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                         // There are no request codes
                         // doSomeOperations();
@@ -135,12 +140,15 @@ public class WriteReviewActivity extends AppCompatActivity {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 photoPickerIntent.setType("image/*");
                 Intent cameraPickerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                cameraPickerIntent.putExtra("uri", "uri");
+                File file = new File(Environment.getExternalStorageDirectory(), "ratein");
+                Log.d("camera", file + "file");
+//                cameraPickerIntent.putExtra("uri", Uri.fromFile(file));
                 Intent chooser = new Intent(Intent.ACTION_CHOOSER);
                 chooser.putExtra(Intent.EXTRA_INTENT, photoPickerIntent);
                 chooser.putExtra(Intent.EXTRA_TITLE, "Select: ");
                 Intent[] intentArray = { cameraPickerIntent };
                 chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
+
                 someActivityResultLauncher.launch(chooser);
             }
         });
@@ -244,6 +252,23 @@ public class WriteReviewActivity extends AppCompatActivity {
     });
 
 }
+
+    private Uri getOutputUri() {
+        String imageName = new SimpleDateFormat("MMddyyyy_HHmmss")
+                .format(new Date(System.currentTimeMillis()));
+        File imageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        // Creating our own folder in the default directory.
+        File appDir = new File(imageDir, "CameraExample");
+        appDir.mkdirs();
+        File image = new File(appDir, imageName + ".jpg");
+        try {
+            image.createNewFile();
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return Uri.fromFile(image);
+    }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
