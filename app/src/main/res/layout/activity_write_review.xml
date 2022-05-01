@@ -168,6 +168,7 @@
                 android:layout_marginRight="25dp"
                 android:background="@drawable/edittext_shape"
                 android:gravity="top|start"
+                android:textColor="@color/black"
                 android:hint="Tell people what you think about this item..."
                 android:inputType="textMultiLine"
                 android:lines="10"
