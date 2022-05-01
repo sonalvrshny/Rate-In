@@ -33,7 +33,7 @@ public class Helper {
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
                 12 * 60 * 60 * 1000, pendingIntent);
         alarmManager.cancel(pendingIntent2);
-        cal.set(Calendar.HOUR, 7);
+        cal.set(Calendar.HOUR, 19);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
                 12 * 60 * 60 * 1000, pendingIntent2);
     }
