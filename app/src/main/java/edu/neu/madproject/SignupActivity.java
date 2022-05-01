@@ -42,7 +42,7 @@ public class SignupActivity extends AppCompatActivity {
         login_already_account = findViewById(R.id.login);
         signup_button = findViewById(R.id.signup);
         username_signup = findViewById(R.id.username_signup);
-        password_signup = findViewById(R.id.password_signup);
+//        password_signup = findViewById(R.id.password_signup);
         progressBar = findViewById(R.id.progressBar_signup);
 
         // firebase instance
@@ -53,7 +53,8 @@ public class SignupActivity extends AppCompatActivity {
         signup_button.setOnClickListener(v -> {
             progressBar.setVisibility(View.VISIBLE);
             String username = username_signup.getText().toString().trim();
-            String password = password_signup.getText().toString();
+//            String password = password_signup.getText().toString();
+            String password="password";
             // invalid username
             if (TextUtils.isEmpty(username)) {
                 // Toast.makeText(SignupActivity.this, "Please enter a username", Toast.LENGTH_LONG).show();
