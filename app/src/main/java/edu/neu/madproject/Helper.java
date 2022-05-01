@@ -26,14 +26,14 @@ public class Helper {
         PendingIntent pendingIntent2 = PendingIntent.getBroadcast(context, 1,
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        cal.set(Calendar.HOUR, 12);
+        cal.set(Calendar.HOUR_OF_DAY, 12);
         cal.set(Calendar.MINUTE, 30);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
                 12 * 60 * 60 * 1000, pendingIntent);
         alarmManager.cancel(pendingIntent2);
-        cal.set(Calendar.HOUR, 19);
+        cal.set(Calendar.HOUR_OF_DAY, 19);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
                 12 * 60 * 60 * 1000, pendingIntent2);
     }
