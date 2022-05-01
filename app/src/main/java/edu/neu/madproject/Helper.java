@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -22,10 +23,13 @@ public class Helper {
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 4);
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, uid);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
-                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                notificationIntent, Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                        ? PendingIntent.FLAG_MUTABLE
+                        : PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent pendingIntent2 = PendingIntent.getBroadcast(context, 1,
-                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
+                notificationIntent, Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                        ? PendingIntent.FLAG_MUTABLE
+                        : PendingIntent.FLAG_UPDATE_CURRENT);
         cal.set(Calendar.HOUR_OF_DAY, 12);
         cal.set(Calendar.MINUTE, 30);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
