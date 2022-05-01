@@ -1,5 +1,6 @@
 package edu.neu.madproject;
 
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -9,10 +10,13 @@ import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -44,9 +48,13 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -91,22 +99,33 @@ public class WriteReviewActivity extends AppCompatActivity {
         back=findViewById(R.id.img_back);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
+
         ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
+                    Log.d("camera", result.getResultCode() + "code");
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                         // There are no request codes
                         // doSomeOperations();
-                        Intent data = result.getData();
-                        ImageUri = Objects.requireNonNull(data).getData();
-                        InputStream imageStream = null;
-                        try {
-                            imageStream = getContentResolver().openInputStream(ImageUri);
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
+                        Bundle bundle = result.getData().getExtras();
+                        Log.d("camera image", result.getData().toString());
+                        if (bundle != null) {
+                            Bitmap bitmap = (Bitmap) bundle.get("data");
+                            productImg.setImageBitmap(bitmap);
+                            ImageUri = getImageUri(this, bitmap);
                         }
-                        BitmapFactory.decodeStream(imageStream);
-                        productImg.setImageURI(ImageUri);// To display selected image in image view
+                        else {
+                            Intent data = result.getData();
+                            ImageUri = Objects.requireNonNull(data).getData();
+                            InputStream imageStream = null;
+                            try {
+                                imageStream = getContentResolver().openInputStream(ImageUri);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                            BitmapFactory.decodeStream(imageStream);
+                            productImg.setImageURI(ImageUri);// To display selected image in image view
+                        }
                     }
                 });
         back.setOnClickListener(new View.OnClickListener() {
@@ -118,13 +137,19 @@ public class WriteReviewActivity extends AppCompatActivity {
         productImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent openGallery=new Intent();
-//                openGallery.setAction(Intent.ACTION_GET_CONTENT);
-//                openGallery.setType("image/*");
-//                startActivityForResult(openGallery,2);
                 Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 photoPickerIntent.setType("image/*");
-                someActivityResultLauncher.launch(photoPickerIntent);
+                Intent cameraPickerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File file = new File(Environment.getExternalStorageDirectory(), "ratein");
+                Log.d("camera", file + "file");
+//                cameraPickerIntent.putExtra("uri", Uri.fromFile(file));
+                Intent chooser = new Intent(Intent.ACTION_CHOOSER);
+                chooser.putExtra(Intent.EXTRA_INTENT, photoPickerIntent);
+                chooser.putExtra(Intent.EXTRA_TITLE, "Select: ");
+                Intent[] intentArray = { cameraPickerIntent };
+                chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
+
+                someActivityResultLauncher.launch(chooser);
             }
         });
         submitData.setOnClickListener(new View.OnClickListener() {
@@ -228,6 +253,7 @@ public class WriteReviewActivity extends AppCompatActivity {
         });
 
     }
+
 
     private void uploadToFirebase(Uri uri, boolean isImage) {
         if(!isImage){
