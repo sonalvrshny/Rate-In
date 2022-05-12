@@ -1,8 +1,14 @@
 package edu.neu.madproject;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Users {
     String uid;
     String username;
+    Map<String, Long> history;
+    Map<String, Long> writeHistory;
 
     public Users() {
     }

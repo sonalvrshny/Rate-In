@@ -3,7 +3,6 @@ package edu.neu.madproject;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,37 +14,30 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
-    private Context feedActivity;
+public class MyReviewsAdapter extends RecyclerView.Adapter<MyReviewsAdapter.ViewHolder>{
+
+    private Context myReviewsActivity;
     private List<Reviews> reviewsList;
     FirebaseAuth auth;
     FirebaseDatabase database;
 
-    public void setFilteredList(List<Reviews> filterList){
-        this.reviewsList=filterList;
-        notifyDataSetChanged();
-    }
-    public FeedAdapter(FeedActivity feedActivity, List<Reviews> reviewsList) {
-        this.feedActivity = feedActivity;
+    public MyReviewsAdapter(Context myReviewsActivity, List<Reviews> reviewsList) {
+        this.myReviewsActivity = myReviewsActivity;
         this.reviewsList = reviewsList;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(feedActivity).inflate(R.layout.feed_card_row,parent,false);
+        View view= LayoutInflater.from(myReviewsActivity).inflate(R.layout.feed_card_row,parent,false);
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-        return new ViewHolder(view);
+        return new MyReviewsAdapter.ViewHolder(view);
     }
 
     @Override
@@ -59,46 +51,15 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         holder.reviewUser.setText(review.getUsername());
         holder.reviewContent.setText(review.getContent());
         holder.reviewCategory.setText(review.getCategory());
-
         holder.itemView.setOnClickListener(view -> {
-            Intent intent  = new Intent(feedActivity, ReadReviewActivity.class);
+            Intent intent  = new Intent(myReviewsActivity, ReadReviewActivity.class);
             intent.putExtra("image", url);
             intent.putExtra("title",review.getTitle());
             intent.putExtra("category",review.getCategory());
             intent.putExtra("rating",review.getRating());
             intent.putExtra("username",review.getUsername());
             intent.putExtra("content",review.getContent());
-            DatabaseReference sender = database.getReference().child("userHistory").child(auth.getUid());
-            sender.get().addOnCompleteListener(getTask -> {
-                if (!getTask.isSuccessful()) {
-                    Log.e("Stat Update failed", "There was an error while updating stats");
-                    return;
-                }
-                DataSnapshot snapshot = getTask.getResult();
-                Map<String, Long> history = (Map<String, Long>) snapshot.child("reads").getValue();
-                Map<String, Long> wHistory = (Map<String, Long>) snapshot.child("writes").getValue();
-                Map<String, Long> wTHistory = (Map<String, Long>) snapshot.child("tagWrites").getValue();
-                Map<String, Long> tHistory = (Map<String, Long>) snapshot.child("tagReads").getValue();
-                if(wTHistory == null) wTHistory = new HashMap<>();
-                if(tHistory == null) tHistory = new HashMap<>();
-                if(history == null) history = new HashMap<>();
-                if(wHistory == null) wHistory = new HashMap<>();
-                history.put(review.getCategory(), history.getOrDefault(review.getCategory(),
-                                0L) + 1);
-                List<String> l = review.getTagList();
-                if(l != null) {
-                    for(String tag : l) {
-                        tHistory.put(tag, tHistory.getOrDefault(tag, 0L) + 1);
-                    }
-                }
-                UsersStats stats = new UsersStats(history, wHistory, tHistory, wTHistory);
-                sender.setValue(stats).addOnCompleteListener(setTask -> {
-                    if (!setTask.isSuccessful()) {
-                        Log.e("Stat Update failed", "There was an error while updating stats");
-                    }
-                });
-            });
-            feedActivity.startActivity(intent);
+            myReviewsActivity.startActivity(intent);
         });
     }
 
@@ -106,7 +67,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public int getItemCount() {
         return reviewsList.size();
     }
-
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView reviewImage;
