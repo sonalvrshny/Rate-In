@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 
@@ -30,6 +31,7 @@ public class SignupActivity extends AppCompatActivity {
     
     FirebaseAuth auth;
     FirebaseDatabase database;
+    DatabaseReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class SignupActivity extends AppCompatActivity {
         login_already_account = findViewById(R.id.login);
         signup_button = findViewById(R.id.signup);
         username_signup = findViewById(R.id.username_signup);
-        password_signup = findViewById(R.id.password_signup);
+//        password_signup = findViewById(R.id.password_signup);
         progressBar = findViewById(R.id.progressBar_signup);
 
         // firebase instance
@@ -51,7 +53,8 @@ public class SignupActivity extends AppCompatActivity {
         signup_button.setOnClickListener(v -> {
             progressBar.setVisibility(View.VISIBLE);
             String username = username_signup.getText().toString().trim();
-            String password = password_signup.getText().toString();
+//            String password = password_signup.getText().toString();
+            String password="password";
             // invalid username
             if (TextUtils.isEmpty(username)) {
                 // Toast.makeText(SignupActivity.this, "Please enter a username", Toast.LENGTH_LONG).show();
@@ -76,20 +79,26 @@ public class SignupActivity extends AppCompatActivity {
             // valid credentials, create account with username and password
             else {
                 // add username with password to firebase
-                username += "@gmail.com";
-                String usernameDB = username;
+                String usernameDB = username + "@gmail.com";
                 Log.d(TAG, username + " " + password);
-                DatabaseReference reference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
-                Log.d(TAG, "task success " + reference);
+
                 auth.createUserWithEmailAndPassword(usernameDB, password).addOnCompleteListener(task ->  {
+//                    DatabaseReference reference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
                     Log.d(TAG, "task success " + task.isSuccessful());
                     if (task.isSuccessful()) {
+                        SharedPrefUtils.saveEmail(username, this);
+                        SharedPrefUtils.savePassword(password, this);
+                        reference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
                         Log.d(TAG, "Created an account with credentials");
                         Users user = new Users(auth.getUid(), usernameDB);
+                        DatabaseReference reference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
+                        Log.d(TAG, "task success " + reference);
                         reference.setValue(user).addOnCompleteListener(task1 -> {
                             if (task1.isSuccessful()) {
-                                Intent intent = new Intent(SignupActivity.this, FeedActivity.class);
+//                        Intent intent = new Intent(SignupActivity.this, FeedActivity.class);
+                                Intent intent = new Intent(SignupActivity.this, CategoriesActivity.class);
                                 intent.putExtra("user", usernameDB);
+                                intent.putExtra("prev", "auth");
                                 startActivity(intent);
                                 Toast.makeText(SignupActivity.this, "User created successfully!", Toast.LENGTH_SHORT).show();
                             }
