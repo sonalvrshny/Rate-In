@@ -81,14 +81,16 @@ public class SignupActivity extends AppCompatActivity {
                 // add username with password to firebase
                 String usernameDB = username + "@gmail.com";
                 Log.d(TAG, username + " " + password);
-
                 auth.createUserWithEmailAndPassword(usernameDB, password).addOnCompleteListener(task ->  {
 //                    DatabaseReference reference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
                     Log.d(TAG, "task success " + task.isSuccessful());
                     if (task.isSuccessful()) {
+
+                        reference = database.getReference().child("user").child(auth.getUid());
+
                         SharedPrefUtils.saveEmail(username, this);
-                        SharedPrefUtils.savePassword(password, this);
-                        reference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
+                        SharedPrefUtils.savePassword(password, this)
+
                         Log.d(TAG, "Created an account with credentials");
                         Users user = new Users(auth.getUid(), usernameDB);
                         DatabaseReference reference = database.getReference().child("user").child(Objects.requireNonNull(auth.getUid()));
